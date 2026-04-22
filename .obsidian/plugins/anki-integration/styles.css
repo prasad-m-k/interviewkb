@@ -1,0 +1,104 @@
+.ankiIntegrationModal__h1--margin {
+    margin-top: 0;
+}
+
+.ankiIntegrationModal__h1--text-align {
+    text-align: center;
+}
+
+.ankiIntegrationModal__h2--fit-content {
+    width: fit-content;
+}
+
+.ankiIntegrationModal__inputContainer--flex,
+.ankiIntegrationModal__dropdownContainer--flex {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ankiIntegrationModal__input--default-width {
+    width: 100%;
+}
+
+.ankiIntegrationModal__input--field-sizing-content {
+    field-sizing: content;
+}
+
+.ankiIntegrationModal__dropdown--default-width {
+    width: 100%;
+}
+
+.ankiIntegrationModal__button--default-width {
+    width: 40%;
+}
+
+.ankiIntegrationModal__button--default-margin {
+    margin: 16px 30% 0;
+}
+
+.ankiIntegrationModal__button--default-padding {
+    padding: 4px 0;
+}
+
+.ankiIntegrationModal__paragraph--text-align {
+    text-align: center;
+}
+
+.ankiIntegrationModal__container--flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.ankiIntegrationModal__container--flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.ankiIntegrationModal__container--flex-align-center {
+    align-items: center;
+}
+
+.ankiIntegrationModal__container--flex-justify-space-between {
+    justify-content: space-between;
+}
+
+.ankiIntegrationModal__container--width-fit-content {
+    width: fit-content;
+}
+
+.ankiIntegrationModal__container--flex-wrap {
+    flex-wrap: wrap;
+}
+
+.ankiIntegrationModal__container--gap-16px {
+    gap: 16px;
+}
+
+.ankiIntegrationModal__deleteInputButton--border {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.ankiIntegrationModal__tagInput--border {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/*noinspection CssUnresolvedCustomProperty*/
+.ankiIntegrationModal__tagInput--focus:focus {
+    box-shadow: inset 0 0 0 2px var(--background-modifier-border-focus) !important;
+    border: none;
+    transition: none !important;
+}
+
+/*noinspection CssUnresolvedCustomProperty*/
+.ankiIntegrationModal__tagInput--focus:focus + button {
+    box-shadow: inset 0 0 0 2px var(--background-modifier-border-focus);
+    transition: none !important;
+}
+
+/*noinspection CssUnresolvedCustomProperty*/
+.ankiIntegrationModal__icon--color-red svg {
+    color: var(--color-red);
+}

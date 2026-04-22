@@ -1,0 +1,358 @@
+# K8s Troubleshooting — Anki Deck
+
+> Anki cards for [[troubleshooting-mindmap]].
+> Sync with the Obsidian_to_Anki plugin (Pseudonium).
+> Deck: `K8s::Troubleshooting`
+
+---
+
+## Pod Problems
+
+START
+Basic
+What are the first diagnostic steps for a pod in **CrashLoopBackOff**?
+Back:
+- `kubectl logs <pod> --previous` — see last container's output
+- Exit code 1 → application error (check app logs)
+- Exit code 137 → OOMKilled (memory limit hit)
+- Exit code 143 → SIGTERM not handled cleanly
+Tags: k8s pod-problems crashloopbackoff
+END
+
+START
+Basic
+What does **exit code 137** mean in a Kubernetes pod, and how do you confirm it?
+Back:
+- OOMKilled — the container exceeded its memory limit
+- Confirm: `kubectl describe pod <pod>` → look for `OOMKilled: true` in container state
+- Fix: raise memory limit **or** find and fix the memory leak (`kubectl top pod --containers`)
+Tags: k8s pod-problems oomkilled exit-codes
+END
+
+START
+Basic
+What does **exit code 143** mean in a Kubernetes pod?
+Back:
+- The container received SIGTERM but did not exit cleanly within the grace period
+- Usually indicates the app is not handling graceful shutdown
+- Check `terminationGracePeriodSeconds` and app signal handling
+Tags: k8s pod-problems exit-codes
+END
+
+START
+Basic
+What does **exit code 1** mean in a Kubernetes pod?
+Back:
+- Generic application-level error
+- Check `kubectl logs <pod> --previous` for the application's own error output
+- Not a Kubernetes error — look inside the app
+Tags: k8s pod-problems exit-codes
+END
+
+START
+Basic
+A pod is stuck in **Pending**. What are the possible causes?
+Back:
+- No nodes with sufficient CPU or memory (`kubectl describe pod` → Events)
+- Node has a taint the pod does not tolerate
+- `nodeAffinity` / `nodeSelector` does not match any node
+- PVC is missing or bound in a different Availability Zone
+- Start: `kubectl describe pod <pod>` → scroll to **Events**
+Tags: k8s pod-problems pending scheduling
+END
+
+START
+Basic
+A pod shows **ImagePullBackOff**. What do you check?
+Back:
+- Wrong or non-existent image tag
+- Missing or misconfigured `imagePullSecret`
+- Registry is unreachable from the cluster (network / firewall)
+- `kubectl describe pod` → Events will show the exact pull error
+Tags: k8s pod-problems image
+END
+
+START
+Basic
+A pod is stuck in **Terminating** for a long time. Why, and how do you fix it?
+Back:
+- A finalizer on the pod or its PVC is not being released
+- A volume is still mounted and the node is unreachable
+- Fix: `kubectl patch pod <pod> -p '{"metadata":{"finalizers":[]}}' --type=merge`
+- Then force-delete: `kubectl delete pod <pod> --grace-period=0 --force`
+Tags: k8s pod-problems terminating finalizers
+END
+
+---
+
+## Deployment & Rollout
+
+START
+Basic
+`kubectl rollout status deployment/<name>` is stuck. What are the likely causes?
+Back:
+- New pods are in CrashLoop or Pending (fix the pod first)
+- Readiness probe on new pods is failing (check probe config + `kubectl logs`)
+- A PodDisruptionBudget (PDB) is blocking removal of old pods
+- Quick escape: `kubectl rollout undo deployment/<name>`
+Tags: k8s deployment rollout
+END
+
+START
+Basic
+A **ReplicaSet** is not scaling up to desired replicas. What do you check?
+Back:
+- Label selector mismatch between Deployment and ReplicaSet
+- ResourceQuota in the namespace is exhausted (`kubectl describe quota`)
+- Node capacity is fully utilized — new pods will be Pending
+Tags: k8s deployment replicaset
+END
+
+START
+Basic
+A **zero-downtime deployment** failed and caused a brief outage. What are the common misconfigurations?
+Back:
+- `maxUnavailable: 0` and `maxSurge: 0` set simultaneously (nothing can progress)
+- Readiness gate (e.g., AWS ALB target group) not clearing in time
+- No readiness probe defined — pods marked Ready before app is warm
+Tags: k8s deployment zero-downtime
+END
+
+---
+
+## Autoscaling
+
+START
+Basic
+**HPA** is not scaling up even though the app is under load. What are the causes?
+Back:
+- Metrics Server not installed or not healthy
+- Pods have no `resources.requests` set (HPA needs a baseline to compute %)
+- Already at `maxReplicas`
+- CPU is **throttled** (CFS throttling) but utilization % looks low
+- Check: `kubectl describe hpa` → Conditions section
+Tags: k8s autoscaling hpa
+END
+
+START
+Basic
+Can you run both **VPA and HPA** on the same deployment for CPU/memory?
+Back:
+- **No** — they conflict. VPA adjusts resource requests; HPA scales replicas based on those requests. Running both on the same metric causes a feedback loop.
+- Safe split: VPA manages `requests` (right-sizing), HPA manages replica count based on a **custom metric** (e.g., RPS)
+Tags: k8s autoscaling vpa hpa
+END
+
+START
+Basic
+**KEDA** is not triggering scale-out. What do you check?
+Back:
+- `ScaledObject` spec is misconfigured (wrong metric name, threshold)
+- Prometheus Adapter / external scaler is not deployed
+- The target metric is not being exposed by the application
+- `kubectl describe scaledobject <name>` → Conditions
+Tags: k8s autoscaling keda
+END
+
+---
+
+## Networking
+
+START
+Basic
+A **Service** is not reachable from inside the cluster. What are the four main causes?
+Back:
+1. **Empty endpoints** — pod label selector does not match pod labels (`kubectl get endpoints <svc>`)
+2. **Pod not Ready** — readiness probe failing, so pod is excluded from endpoints
+3. **NetworkPolicy** blocking ingress/egress to the pod
+4. **DNS resolution failing** — `kubectl exec <pod> -- nslookup <svc>.<ns>.svc.cluster.local`
+Tags: k8s networking service dns
+END
+
+START
+Basic
+An **Ingress** rule exists but traffic is not reaching the backend. What do you check?
+Back:
+- `ingressClassName` mismatch (wrong or missing IngressClass)
+- Backend Service port does not match the container port
+- TLS certificate missing or expired
+- `kubectl describe ingress <name>` → Events section for controller errors
+Tags: k8s networking ingress
+END
+
+START
+Basic
+**DNS resolution** is failing inside pods. Where do you start?
+Back:
+- Check CoreDNS pods: `kubectl get pods -n kube-system -l k8s-app=kube-dns`
+- `ndots` setting in pod's resolv.conf causing FQDN lookups to fail for short names
+- Test: `kubectl exec <pod> -- nslookup <svc>.<ns>.svc.cluster.local`
+Tags: k8s networking dns coredns
+END
+
+START
+Basic
+Pods cannot reach each other even though a Service exists. You suspect a **NetworkPolicy**. How do you debug it?
+Back:
+- Check if a default-deny policy is active: `kubectl get netpol -n <ns>`
+- `kubectl describe netpol <name>` — review ingress/egress selectors
+- Verify the policy's `podSelector` actually matches your pods
+- Missing **egress** rule is a common oversight when only ingress is defined
+Tags: k8s networking networkpolicy
+END
+
+---
+
+## Node Problems
+
+START
+Basic
+A node shows **NotReady**. What are the possible causes and first steps?
+Back:
+- kubelet has stopped — SSH to the node: `systemctl status kubelet`
+- Disk pressure — `df -h` on the node
+- Memory pressure — `free -m` on the node
+- Network partition — node unreachable from control plane
+- Start: `kubectl describe node <name>` → **Conditions** section
+Tags: k8s node notready
+END
+
+START
+Basic
+What is the difference between **cordoning** and **draining** a node?
+Back:
+- `kubectl cordon <node>` — marks node as `SchedulingDisabled`; existing pods keep running, no new pods scheduled
+- `kubectl drain <node> --ignore-daemonsets` — cordon + evict all pods (respects PDBs)
+- Use cordon to hold new scheduling; use drain before maintenance or decommission
+Tags: k8s node cordon drain
+END
+
+START
+Basic
+A node is showing **DiskPressure**. What are the causes and remediation?
+Back:
+- Log files filling the disk (log rotation not configured / running)
+- Accumulated container image layers (`crictl image prune` or `docker image prune`)
+- kubelet eviction threshold exceeded — `kubectl describe node` → Conditions
+- Long-term: set log rotation, configure `--image-gc-high-threshold` on kubelet
+Tags: k8s node diskpressure
+END
+
+START
+Basic
+A node experiences an **OOM kill at the OS level** (not inside a container). What happened and what do you review?
+Back:
+- The Linux OOM killer fired — all pods on the node may be killed, not just one
+- Different from container OOMKilled (which is cgroup-limited)
+- Review: total `requests` vs node's `Allocatable` memory — over-commitment
+- `kubectl describe node` → `Allocatable` vs `Allocated resources`
+Tags: k8s node oom memory
+END
+
+---
+
+## Storage
+
+START
+Basic
+A **PVC is stuck in Pending**. What are the causes?
+Back:
+- No StorageClass matches the PVC's `storageClassName`
+- Volume binding mode is `WaitForFirstConsumer` and no pod is using it yet
+- Volume topology mismatch — PVC and pod are in different AZs
+- A static PV exists but labels/accessMode don't match the PVC
+- `kubectl describe pvc <name>` → Events
+Tags: k8s storage pvc pending
+END
+
+START
+Basic
+A **PVC is stuck in Terminating**. How do you resolve it?
+Back:
+- A pod is still mounting the volume — delete the pod first
+- The PVC has a `kubernetes.io/pvc-protection` finalizer — it won't release until no pod uses it
+- If the pod is already gone: `kubectl patch pvc <name> -p '{"metadata":{"finalizers":[]}}' --type=merge`
+Tags: k8s storage pvc terminating finalizers
+END
+
+START
+Basic
+A pod's volume mount is failing at startup. What are the three most common causes?
+Back:
+- The referenced Secret or ConfigMap does not exist in the namespace
+- `mountPath` conflicts with an existing directory in the container image
+- PVC has `accessMode: ReadWriteOnce` and is already mounted on a different node
+Tags: k8s storage volume mount
+END
+
+---
+
+## Security & Config
+
+START
+Basic
+A pod is reading a **stale Secret value** even after the Secret was updated. Why, and how do you fix it?
+Back:
+- Env vars (`envFrom`/`env`) are injected at pod start — require pod restart to pick up changes
+- Volume mounts auto-refresh in ~1 minute (kubelet sync period) — but the app must re-read the file
+- Fix for env vars: rolling restart — `kubectl rollout restart deployment/<name>`
+Tags: k8s security secrets config
+END
+
+START
+Basic
+A pod gets a **403 Forbidden / RBAC** error. How do you debug it?
+Back:
+- `kubectl auth can-i <verb> <resource> --as=system:serviceaccount:<ns>:<sa>` — test permissions
+- Check if a RoleBinding or ClusterRoleBinding exists for the ServiceAccount
+- Verify the Role/ClusterRole has the correct verbs and resource names
+- Watch for namespace scope: a Role only works within its namespace
+Tags: k8s security rbac
+END
+
+START
+Basic
+A pod is rejected by **Pod Security Admission** at creation time. What are the common violations?
+Back:
+- `privileged: true` in securityContext (not allowed in `restricted` or `baseline`)
+- `runAsNonRoot: false` or `runAsUser: 0` (root forbidden in `restricted`)
+- Missing `securityContext` block entirely (required fields for `restricted` policy)
+- Check: `kubectl describe pod` → reason will cite the specific PSA violation
+Tags: k8s security psa pod-security
+END
+
+---
+
+## Observability Gaps
+
+START
+Basic
+**Metrics are missing** in your cluster (HPA broken, `kubectl top` fails). What do you check?
+Back:
+- Metrics Server not installed or crashing (`kubectl get pods -n kube-system | grep metrics-server`)
+- `ServiceMonitor` selector labels don't match the Service's labels (Prometheus Operator)
+- Pod is missing `prometheus.io/scrape: "true"` annotation (annotation-based scraping)
+Tags: k8s observability metrics
+END
+
+START
+Basic
+**Pod logs are not appearing** in your log aggregation system. What are the causes?
+Back:
+- Fluentd / Fluent Bit DaemonSet has a pod not running on that node
+- Log rotation is overwriting logs faster than the agent collects them
+- App is emitting non-JSON/structured logs that the parser rejects
+- Check: `kubectl get ds -n logging` — ensure DaemonSet has a pod on every node
+Tags: k8s observability logging
+END
+
+START
+Basic
+**Alerts are firing** in Prometheus but you never received a notification. What do you check?
+Back:
+- AlertManager is not configured (no `receivers` or `routes` defined)
+- The alert's labels don't match any route's `match` / `match_re` selector
+- The receiver endpoint (Slack webhook, PagerDuty key) is down or misconfigured
+- Check AlertManager UI → Status → Routing tree to trace where an alert goes
+Tags: k8s observability alertmanager prometheus
+END

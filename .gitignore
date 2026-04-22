@@ -1,0 +1,51 @@
+# ── macOS ──────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── Obsidian — per-machine state (not useful to share) ─────────────────────
+# open tabs, pane layout, window position
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+# theme and font preferences
+.obsidian/appearance.json
+# graph view position/zoom — changes every session
+.obsidian/graph.json
+# binary search index (regenerated on open)
+.obsidian/cache
+# plugin runtime state (e.g. Anki sync IDs, kanban positions)
+.obsidian/plugins/*/data.json
+
+# ── Obsidian — keep in version control ─────────────────────────────────────
+# .obsidian/app.json                 (core settings: line width, spellcheck)
+# .obsidian/core-plugins.json        (which built-in plugins are enabled)
+# .obsidian/community-plugins.json   (which community plugins are installed)
+# .obsidian/plugins/*/main.js        (plugin code)
+# .obsidian/plugins/*/manifest.json  (plugin metadata)
+# .obsidian/plugins/*/styles.css     (plugin styles)
+
+# ── Claude Code — local overrides (machine-specific) ───────────────────────
+.claude/settings.local.json
+
+# ── Graphify — build output (regeneratable) ────────────────────────────────
+graphify-out/
+
+# ── Editor / IDE ───────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Python (if scripts are added) ──────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# ── Node (if tooling is added) ─────────────────────────────────────────────
+node_modules/
+
+# ── Temp / scratch ─────────────────────────────────────────────────────────
+*.tmp
+*.bak
