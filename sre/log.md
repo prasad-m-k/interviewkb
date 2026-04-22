@@ -7,6 +7,21 @@ Grep tip: `grep "^## \[" sre/log.md | tail -10`
 
 ---
 
+## [2026-04-22] update | Apple SRE topic linking and missing concepts
+- Created: concepts/linux-boot-process (BIOS/UEFI, GRUB, systemd)
+- Created: concepts/memory-management (Virtual memory, paging, OOM, COW)
+- Updated: companies/apple.md — converted all frequently tested topics into explicit wiki links to existing and new concept pages.
+- Updated: index.md — added new concept pages to the content catalog.
+- Notes: Ensured "out of the box" completeness by filling gaps in core systems knowledge required for Apple interviews.
+
+## [2026-04-22] update | Apple-specific SRE interview content
+- Created: companies/apple (process, emphasis, Linux internals, networking, coding)
+- Created: problems/log-parsing-script (streaming O(N) log analysis)
+- Created: problems/distributed-rate-limiter (system design with Redis/Lua)
+- Created: scenarios/high-cpu-troubleshooting (USE model, Linux toolset)
+- Updated: index.md — added new problems, scenarios, and company entry
+- Notes: Emphasized Apple's focus on privacy, internal mechanics (how things work vs just using them), and scale.
+
 ## [2026-04-22] update | Networking fundamentals + load balancers
 - Created: concepts/networking-fundamentals — TCP handshake (3-way + 4-way close), TLS 1.2/1.3 with handshake diagrams, session key derivation, encryption by OSI layer, forward/reverse proxies, CONNECT tunneling, API gateway vs reverse proxy, Zscaler ZIA/ZPA + SASE/zero trust architecture, port reference
 - Created: concepts/load-balancers — L4 vs L7 deep-dive, NLB vs ALB comparison, all LB algorithms (round-robin, weighted, least-conn, least-response-time, IP hash, consistent hashing, power of two choices), health checks, DB layer LB (read/write split, PgBouncer, ProxySQL, sharding), K8s Service types (ClusterIP/NodePort/LB/Ingress), kube-proxy iptables/IPVS/eBPF internals, Gateway API YAML

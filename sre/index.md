@@ -22,6 +22,8 @@ Last updated: 2026-04-22
 - [[sre/concepts/networking-troubleshooting]] — ping, dig, curl, ss/netstat, tcpdump, iptables; scenario playbooks
 - [[sre/concepts/log-analysis]] — tail -f, journalctl, grep/awk pipelines, nginx log parsing, p99 from logs
 - [[sre/concepts/disk-and-io]] — df, du, iostat, deleted-file trap, inode exhaustion, NFS hangs
+- [[sre/concepts/linux-boot-process]] — BIOS/UEFI, GRUB2, Kernel, Init/Systemd, recovery modes
+- [[sre/concepts/memory-management]] — Virtual memory, paging, RSS/VSZ, OOM Killer, COW
 - [[sre/concepts/slo-sli-sla]] — SLI/SLO/SLA definitions, error budgets, availability nines table, composite SLO
 - [[sre/concepts/networking-fundamentals]] — TCP handshake, TLS 1.2/1.3, encryption by layer, forward/reverse proxies, Zscaler/SASE zero trust
 - [[sre/concepts/load-balancers]] — L4 vs L7 LB, NLB vs ALB, LB algorithms (round-robin, consistent hashing, least-conn), DB load balancing, K8s Service types + Ingress + kube-proxy internals
@@ -33,7 +35,11 @@ Last updated: 2026-04-22
 - [[sre/flashcards/slo-sli-sla-scenarios]] — 10 scenario-based questions: error budget math, incident response, setting SLIs for batch vs API, alert fatigue, introducing SLOs to a resistant team
 
 ## Problems
-*(none yet)*
+- [[sre/problems/log-parsing-script]] — Medium; Streaming logs; O(N) time, O(U) space; Apple, Google
+- [[sre/problems/distributed-rate-limiter]] — Hard; System Design; Redis/Token Bucket; Apple, Stripe
+
+## Scenarios
+- [[sre/scenarios/high-cpu-troubleshooting]] — Linux internals; top, vmstat, strace; Apple, Google
 
 ## Companies
-*(none yet)*
+- [[sre/companies/apple]] — Heavy on Linux internals, networking, and clean automation; privacy emphasis

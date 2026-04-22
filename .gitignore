@@ -27,6 +27,11 @@
 # ── Claude Code — local overrides (machine-specific) ───────────────────────
 .claude/settings.local.json
 
+# ── Gemini CLI — local state (machine-specific) ────────────────────────────
+.gemini/
+.gemini-session/
+gemini-*.log
+
 # ── Graphify — build output (regeneratable) ────────────────────────────────
 graphify-out/
 
