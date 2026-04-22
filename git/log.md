@@ -1,5 +1,10 @@
 # Git Knowledge Base — Log
 
+## [2026-04-22] update | Large HTTPS push failure — real incident documented
+- Created: scenarios/large-push-failure
+- Updated: index.md
+- Notes: Initial push to github.com/prasad-m-k/interviewkb failed with "send-pack: unexpected disconnect"; root cause was default 1 MB http.postBuffer; fixed with git config http.postBuffer 524288000
+
 ## [2026-04-22] ingest | Git knowledge base — initial build
 
 - Created: overview, index, log

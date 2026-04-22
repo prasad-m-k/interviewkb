@@ -38,6 +38,7 @@ Last updated: 2026-04-22
 - [[git/scenarios/revert-bad-commit]] — revert vs. reset; when to use each
 - [[git/scenarios/bisect-regression]] — Finding the breaking commit with git bisect
 - [[git/scenarios/clean-up-history]] — Squash, fixup, reorder before merging
+- [[git/scenarios/large-push-failure]] — "send-pack: unexpected disconnect"; fix with http.postBuffer
 
 ## CI/CD
 - [[git/cicd/overview]] — How Git events drive pipelines
