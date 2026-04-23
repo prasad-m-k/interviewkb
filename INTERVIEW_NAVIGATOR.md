@@ -15,6 +15,10 @@ This navigator provides a high-signal checklist based on your **Role**, **Target
 - **Priority KBs:** [[mlops/index]], [[ml/index]], [[solution-arch/index]], [[dsa/index]]
 - **Focus:** ML Pipelines, Data Drift, Distributed Systems, Algorithms.
 
+### **Path C: Java / Backend Engineer**
+- **Priority KBs:** [[java/index]], [[solution-arch/index]], [[dsa/index]], [[devops/index]]
+- **Focus:** Concurrency, JVM Internals, Microservices, System Design.
+
 ---
 
 ## 🗓️ Step 2: The Timeline Checklist
@@ -25,6 +29,7 @@ This navigator provides a high-signal checklist based on your **Role**, **Target
 - [ ] **System Fundamentals:** 
     - **SRE:** Review [[sre/concepts/networking-fundamentals]] and [[sre/concepts/linux-boot-process]].
     - **MLOps:** Review [[ml/concepts/transformers]] and [[mlops/concepts/feature-store]].
+    - **Java/Backend:** Review [[java/concepts/synchronization]] and [[java/concepts/jvm-internals]].
 - [ ] **Git Mastery:** Review [[git/cheatsheet]] for history cleanup and branching.
 
 ### **Phase 2: Depth & Scenarios (T-Minus 14 Days)**
@@ -54,6 +59,7 @@ This navigator provides a high-signal checklist based on your **Role**, **Target
 | Topic | Quick Link | Key Artifact |
 |---|---|---|
 | **Algorithms** | [[dsa/topics/algorithms]] | BFS/DFS Templates |
+| **Java / JVM** | [[java/index]] | Synchronization Deep Dive |
 | **Kubernetes** | [[k8s/K8S overview]] | Troubleshooting Mindmap |
 | **System Design** | [[solution-arch/index]] | Scalability Patterns |
 | **Machine Learning** | [[ml/index]] | Model Evaluation |
