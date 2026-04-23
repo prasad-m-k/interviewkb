@@ -8,7 +8,7 @@ tags:
 ---
 
 # DSA Index
-Last updated: 2026-04-21
+Last updated: 2026-04-22 (enhanced)
 
 ## Overview
 - [[DSA overview]] — DSA for senior MLOps engineers; top 10 problems, core competency map, study strategy
@@ -25,6 +25,7 @@ Last updated: 2026-04-21
 - [[dsa/concepts/deque]] — O(1) both ends; monotonic deque for sliding window max/min
 - [[dsa/concepts/binary-tree]] — Traversal orders, BST, height, LCA, serialization patterns
 - [[dsa/concepts/stack]] — Four stack modes: monotonic, matching, simulation, expression eval
+- [[dsa/concepts/binary-search]] — O(log n); 3 templates (exact, left bound, right bound); search-on-answer pattern
 
 ## Patterns
 - [[dsa/patterns/monotonic-stack]] — Decreasing (next greater) / increasing (next smaller); O(n) boundary queries
@@ -60,6 +61,10 @@ Last updated: 2026-04-21
 - [[dsa/problems/combination-sum]] — Medium; sorted input + start index avoids duplicates; Amazon, Google
 - [[dsa/problems/generate-parentheses]] — Medium; open/close counters; Catalan number; Google, Bloomberg
 
+### Backtracking (new)
+- [[dsa/problems/permutations]] — Medium; backtracking with used[] array; swap-in-place variant; Meta, Google, Apple
+- [[dsa/problems/subsets]] — Medium; start-index anti-duplicate trick; bitmask variant; subsets-with-dup follow-up; Meta, Google
+
 ### Apple-specific
 - [[dsa/problems/merge-intervals]] — Medium; Sort + Greedy; overlapping windows; Apple, Google, Amazon
 - [[dsa/problems/serialize-deserialize-binary-tree]] — Hard; Preorder DFS + null markers; Apple, Google
@@ -93,10 +98,16 @@ Last updated: 2026-04-21
 - [[dsa/trees/problems/binary-tree-maximum-path-sum]] — Gain up + accumulate globally; LC 124; Google, Apple
 
 ## Flashcards
+- [[dsa/flashcards/sre-prodeng-top15]] — Top 15 DSA & Systems for SRE/PE (Google & Meta)
 - [[dsa/flashcards/dsa-mlops-top10]] — Obsidian callout flashcards for all 10 problems
 - [[dsa/flashcards/dsa-mlops-top10-anki]] — Anki TSV import file (HTML formatted)
 
+## Matrix & Grid
+- [[dsa/grid/index]] — 2D Matrix patterns: BFS shortest path, DFS flood fill, simulation, 2D binary search
+
 ## Companies
+- [[dsa/companies/google]] — SRE focus: streaming, NALSD, concurrency, systems scripting
+- [[dsa/companies/meta]] — PE focus: speed coding, systems scripting, Linux troubleshooting
 - [[dsa/companies/apple]] — Heavy on trees, intervals, arrays; clean code emphasis; 4–5 on-site rounds
 
 ## Sources

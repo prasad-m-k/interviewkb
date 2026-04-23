@@ -9,8 +9,6 @@
 
 Most MLOps engineers assume their system-design depth will carry them through coding rounds. It won't. FAANG coding interviews are language-agnostic and test the same DS&A fundamentals regardless of role. The difference for senior ML engineers is *which* problems appear most often and how interviewers frame them.
 
-Expect problems that mirror daily MLOps concerns:
-
 | Interview Problem | MLOps Analogy |
 |---|---|
 | LRU Cache | Model/feature cache eviction |
@@ -23,6 +21,29 @@ Expect problems that mirror daily MLOps concerns:
 | Number of Islands | Cluster/component detection |
 | Word Break | Sequence tokenization / DP on strings |
 | Design Hit Counter | Inference API rate-limiting |
+
+---
+
+## Why DSA Matters for SRE & Production Engineers
+
+For SRE and Production Engineering roles, DSA questions shift from abstract puzzles to **operational coding**. Interviewers look for systems maturity: handling malformed inputs, managing memory for large files, and concurrency safety.
+
+| Interview Problem | SRE / PE Analogy |
+|---|---|
+| [[dsa/problems/design-hit-counter]] | Monitoring metrics (past 5 min RPS) |
+| [[dsa/problems/course-schedule-ii]] | Service dependency resolution / Dag execution |
+| [[dsa/problems/lru-cache]] | In-memory cache for high-traffic endpoints |
+| [[dsa/problems/merge-intervals]] | Combining maintenance windows or alert ranges |
+| [[dsa/problems/task-scheduler]] | Job runner with execution constraints |
+| [[dsa/problems/top-k-frequent-elements]] | Identifying the top talkers in a network log |
+| [[dsa/problems/daily-temperatures]] | Finding the next spike in a metrics stream |
+
+---
+
+## Role-Specific Deep Dives
+- [[dsa/companies/google]] — SRE: streaming, NALSD, concurrency, systems scripting
+- [[dsa/companies/meta]] — PE: speed coding, systems scripting, Linux troubleshooting
+- [[dsa/companies/apple]] — Heavy on trees, intervals, arrays; clean code emphasis
 
 ---
 

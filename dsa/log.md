@@ -1,34 +1,25 @@
-# DSA Log
+# DSA Knowledge Base Log
 
-Append-only. Each entry: `## [YYYY-MM-DD] <type> | <title>`
-Types: `ingest`, `query`, `lint`, `update`
+## [2026-04-22] update | Dead-link resolution + new concepts + grid/backtracking problems
+- Created: concepts/binary-search — 3 templates (exact/left-bound/right-bound); rotated array; peak element; search-on-answer technique; 2D matrix search
+- Created: problems/permutations — backtracking with used[] array; swap-in-place variant; Permutations II with duplicates; Meta, Google, Apple
+- Created: problems/subsets — start-index anti-duplicate; bitmask variant; Subsets II; iterative build; Meta, Google, Apple
+- Created: grid/problems/flood-fill — DFS/BFS prototype; the generalized DFS grid template; in-place visited marking
+- Created: grid/problems/max-area-of-island — DFS + return-count; no-mutate variant; BFS variant; Apple, Google
+- Created: grid/problems/walls-and-gates — multi-source BFS from all gates; canonical multi-source pattern; Google, Meta
+- Created: grid/problems/word-search-ii — Trie + DFS; Trie pruning after word found; contrast with Word Search I
+- Created: grid/problems/set-matrix-zeroes — O(1) space using first row/col as flags; two-pass pattern; ordering of operations
+- Created: grid/problems/surrounded-regions — inverted flood fill from borders; "mark from boundary, then sweep" pattern
+- Updated: index.md — added binary-search concept, permutations, subsets, backtracking section header
 
-Grep tip: `grep "^## \[" dsa/log.md | tail -10`
+## 2026-04-22
+- Created `dsa/companies/google.md` focused on SRE interview prep (NALSD, practical coding, streaming).
+- Created `dsa/companies/meta.md` focused on Production Engineer interview prep (Speed algorithms, Systems scripting, Linux).
+- Created `dsa/flashcards/sre-prodeng-top15.md` with 15 role-specific cards covering DSA, Linux, and Network fundamentals.
+- Updated `dsa/index.md` and `dsa/DSA overview.md` to include new company and role-specific content.
 
----
-
-## [2026-04-21] update | Apple most-asked DSA problems
-- Created: companies/apple (process, emphasis, frequently seen problems, behavioral tips)
-- Created concepts: binary-tree (traversal orders, BST, height, LCA, serialization)
-- Created patterns: tree-traversal (DFS pre/in/post templates, BFS level-order, LCA)
-- Created problems: merge-intervals, serialize-deserialize-binary-tree, binary-tree-level-order-traversal, trapping-rain-water, product-of-array-except-self, lowest-common-ancestor, maximum-subarray
-- Updated: dsa/index.md — added Apple-specific problem section, companies entry, new concept/pattern
-
-## [2026-04-21] ingest | Data structure internals — senior-level concepts
-- Created: concepts/hash-collision-resolution (chaining vs open addressing, Robin Hood hashing, tombstones)
-- Created: concepts/hash-map-internals (load factor, rehashing, Python dict internals, Java HashMap treeification, adversarial hash flooding)
-- Created: concepts/dynamic-array-amortized (doubling proof, O(1) amortized append, worst-case latency gotcha)
-- Created: concepts/tree-balancing (BST degeneration, AVL, Red-Black, B-Tree, why databases use B-trees)
-- Created: concepts/heap-internals (array layout, sift up/down, O(n) heapify proof, d-ary heaps)
-- Updated: topics/data-structures — added internals links and Trees section
-- Updated: concepts/hash-map, concepts/heap — linked to internals pages
-
-## [2026-04-21] update | DSA knowledge base initialized
-- Created directory structure: dsa/, topics/, concepts/, patterns/, problems/, flashcards/
-- Created: dsa/index.md, dsa/log.md, dsa/overview.md
-- Created topics: data-structures, algorithms
-- Created concepts: hash-map, heap, graph, dynamic-programming, deque
-- Created patterns: sliding-window, bfs-dfs, topological-sort, two-heaps
-- Created 10 problems: lru-cache, course-schedule-ii, sliding-window-maximum, find-median-from-data-stream, top-k-frequent-elements, number-of-islands, merge-k-sorted-lists, task-scheduler, word-break, design-hit-counter
-- Created flashcards: dsa-mlops-top10 (Obsidian), dsa-mlops-top10-anki.txt (Anki TSV)
-- Domain: DSA for senior MLOps engineers at FAANG
+## 2026-04-21
+- Initial creation of DSA knowledge base.
+- Added top 10 problems for MLOps engineers.
+- Created `dsa/trees` and `dsa/grid` structures.
+- Added Apple company-specific prep.

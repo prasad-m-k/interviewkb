@@ -8,13 +8,14 @@ tags:
 ---
 
 # SRE Index
-Last updated: 2026-04-22
+Last updated: 2026-04-22 (enhanced)
 
 ## Overview
 - [[sre/overview]] — Coverage map and usage guide
 
 ## Topics
 - [[sre/topics/linux-cli]] — Survey of all Linux CLI categories; command map; common question types
+- [[sre/topics/system-design]] — SRE system design framework; 10 canonical designs; NALSD; distributed systems fundamentals; Apple/Google/Meta-specific patterns
 
 ## Concepts
 - [[sre/concepts/file-manipulation]] — find, grep, awk, sed, sort/uniq/cut, xargs, permissions, FDs, pipes
@@ -37,9 +38,25 @@ Last updated: 2026-04-22
 ## Problems
 - [[sre/problems/log-parsing-script]] — Medium; Streaming logs; O(N) time, O(U) space; Apple, Google
 - [[sre/problems/distributed-rate-limiter]] — Hard; System Design; Redis/Token Bucket; Apple, Stripe
+- [[sre/problems/parse-passwd-groups]] — Medium; /etc/passwd + /etc/group join; primary vs supplementary group membership
+- [[sre/problems/error-rate-alerter]] — Medium; Sliding window deque; real-time error rate monitoring with hysteresis
+- [[sre/problems/disk-space-hogs]] — Easy–Med; Min-heap top-N; symlink safety, permission handling
+- [[sre/problems/ssl-cert-checker]] — Medium; Parallel I/O; TLS SNI; fleet-wide certificate expiry
+- [[sre/problems/zombie-process-finder]] — Easy–Med; /proc parsing; process tree; wait() semantics
+- [[sre/problems/fastest-dinosaur]] — Easy–Med; Hash-join two CSV files; filter + formula + argmax; Meta PE classic
 
 ## Scenarios
 - [[sre/scenarios/high-cpu-troubleshooting]] — Linux internals; top, vmstat, strace; Apple, Google
 
 ## Companies
-- [[sre/companies/apple]] — Heavy on Linux internals, networking, and clean automation; privacy emphasis
+- [[sre/companies/apple]] — Heavy on Linux internals, networking, clean automation; privacy emphasis; Darwin/launchctl tooling
+- [[sre/companies/google]] — SRE-SWE/PE split; SLO/error budget focus; toil reduction; Borg/Spanner/Monarch context
+- [[sre/companies/meta]] — Production Engineer role; coding at SWE bar; C++ + Python; TAO/Scuba/ODS context
+- [[sre/companies/amazon]] — SDE-Infra / Systems Dev Engineer; 16 Leadership Principles; AWS services depth; Dynamo paper
+
+## Sources
+- [[sre/sources/google-sre-book]] — Book; O'Reilly 2016; SLOs, toil, error budgets, four golden signals; blameless postmortems
+- [[sre/sources/sre-workbook]] — Book; O'Reilly 2018; practical SLO rollout; multi-window burn rate alerting; sustainable on-call
+- [[sre/sources/scaling-memcache-facebook]] — Paper; USENIX NSDI 2013; lease mechanism; McRouter; gutter pools; invalidation vs. update
+- [[sre/sources/apple-interview-wiki]] — Community synthesis; Darwin/XNU focus; privacy engineering questions; scripting round patterns
+- [[sre/sources/meta-pe-interview-guide]] — Community synthesis; "war room" scenarios; Fastest Dinosaur pattern; PE coding bar = SWE bar
