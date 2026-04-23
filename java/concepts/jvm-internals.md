@@ -39,7 +39,44 @@ graph TD
 
 ---
 
-## 2. Heap Generations (Generational Hypothesis)
+## 2. The Java Memory Model (JMM) - Abstract View
+
+While the "Runtime Data Areas" (Heap/Stack) describe the physical layout, the **JMM** describes how threads interact with memory. This is the specification for **Visibility** and **Ordering**.
+
+```mermaid
+graph TD
+    subgraph "Main Memory (Shared)"
+        MM[Heap / Shared Variables]
+    end
+    
+    subgraph "Thread A"
+        WA[Working Memory / Cache]
+        TA[Thread Execution]
+    end
+    
+    subgraph "Thread B"
+        WB[Working Memory / Cache]
+        TB[Thread Execution]
+    end
+    
+    TA <--> WA
+    WA <--> MM
+    TB <--> WB
+    WB <--> MM
+    
+    style MM fill:#f9f,stroke:#333
+    style WA fill:#bbf,stroke:#333
+    style WB fill:#bbf,stroke:#333
+```
+
+### Key JMM Concepts for Interviews:
+- **Main Memory:** All objects live here.
+- **Working Memory:** Each thread has a private copy of the variables it needs (CPU caches/registers).
+- **The Visibility Problem:** If Thread A updates a value in its working memory, Thread B might still see the old value in its own working memory unless a **synchronization barrier** (like `volatile` or `synchronized`) forces a flush/refresh from Main Memory.
+
+---
+
+## 3. Heap Generations (Generational Hypothesis)
 
 Java heap is divided into generations because most objects die young.
 

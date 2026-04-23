@@ -102,9 +102,25 @@ public class DataService {
 
 ### Q: "Explain the 'Happens-Before' relationship."
 **Answer:** It's a guarantee provided by the Java Memory Model (JMM). If action A "happens-before" action B, then the results of A are guaranteed to be visible to B.
+
+```mermaid
+sequenceDiagram
+    participant TA as Thread A
+    participant MM as Main Memory (Shared)
+    participant TB as Thread B
+    
+    Note over TA: Write x = 10
+    TA->>MM: [Unlock / Volatile Write] Flush to Main Memory
+    Note over MM: x is now 10
+    MM->>TB: [Lock / Volatile Read] Refresh from Main Memory
+    Note over TB: Read x = 10 (Guaranteed)
+```
+
 *Key Rules:*
 - A `unlock` happens-before every subsequent `lock` on that same monitor.
 - A write to a `volatile` field happens-before every subsequent read of that same field.
+- `Thread.start()` happens-before any action in the started thread.
+- `Thread.join()` happens-before the thread that called join returns.
 
 ### Q: "When would you use `ReadWriteLock`?"
 **Answer:** When you have many readers but few writers. It allows multiple readers to hold the lock simultaneously as long as no writer is active.

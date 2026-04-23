@@ -35,6 +35,7 @@
 *   **Fail-fast vs Fail-safe:** Iterators and `CopyOnWriteArrayList`.
 
 ### 4. Language Fundamentals & Java 17+
+*   [[java/concepts/streams-lambdas]] — Functional programming, pipelines, and lazy evaluation.
 *   **Modern Java:** Sealed Classes, Records, Pattern Matching.
 *   **Functional Programming:** Streams API, Lambdas, Optional.
 *   **Generics:** Type erasure vs. reification.
