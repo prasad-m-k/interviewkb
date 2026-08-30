@@ -120,5 +120,8 @@ PostgreSQL with read replicas. Revisit if write throughput exceeds 10k TPS.
 ## Related
 - [[solution-arch/topics/nfr-quality-attributes]]
 - [[solution-arch/topics/architectural-styles]]
-- [[solution-arch/diagrams/c4-model]]
+- [[c4-model]]
 - [[solution-arch/scenarios/interview-questions]]
+- [[solution-arch/topics/ai-solution-architecture]] — same core loop and trade-off discipline, extended to systems where an LLM/agent is a runtime component
+- [[solution-arch/topics/enterprise-architecture-frameworks]] — EA/SA/TA scoping and governance frameworks (TOGAF, Well-Architected)
+- [[solution-arch/topics/cost-architecture-finops]] — cost as a first-class NFR alongside availability/scalability/security above

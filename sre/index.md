@@ -8,7 +8,7 @@ tags:
 ---
 
 # SRE Index
-Last updated: 2026-04-22 (enhanced)
+Last updated: 2026-08-18
 
 ## Overview
 - [[sre/overview]] — Coverage map and usage guide
@@ -25,8 +25,10 @@ Last updated: 2026-04-22 (enhanced)
 - [[sre/concepts/disk-and-io]] — df, du, iostat, deleted-file trap, inode exhaustion, NFS hangs
 - [[sre/concepts/linux-boot-process]] — BIOS/UEFI, GRUB2, Kernel, Init/Systemd, recovery modes
 - [[sre/concepts/memory-management]] — Virtual memory, paging, RSS/VSZ, OOM Killer, COW
-- [[sre/concepts/slo-sli-sla]] — SLI/SLO/SLA definitions, error budgets, availability nines table, composite SLO
-- [[sre/concepts/networking-fundamentals]] — TCP handshake, TLS 1.2/1.3, encryption by layer, forward/reverse proxies, Zscaler/SASE zero trust
+- [[sre/concepts/slo-sli-sla]] — SLI/SLO/SLA definitions with worked examples, error budgets, availability nines table, composite SLO
+- [[sre/concepts/escalation-management]] — Escalation tiers, when/how to escalate, how to close an escalation (exit checklist)
+- [[sre/concepts/rca-basics]] — Root cause vs. contributing factor vs. trigger, 5 Whys, Fishbone/Ishikawa, corrective vs. preventive action
+- [[sre/concepts/networking-fundamentals]] — TCP handshake, TLS 1.2/1.3, ALPN/HTTP-2 preface/QUIC handshake, encryption by layer, forward/reverse proxies, Zscaler/SASE zero trust
 - [[sre/concepts/load-balancers]] — L4 vs L7 LB, NLB vs ALB, LB algorithms (round-robin, consistent hashing, least-conn), DB load balancing, K8s Service types + Ingress + kube-proxy internals
 
 ## Patterns
@@ -53,6 +55,7 @@ Last updated: 2026-04-22 (enhanced)
 - [[sre/companies/google]] — SRE-SWE/PE split; SLO/error budget focus; toil reduction; Borg/Spanner/Monarch context
 - [[sre/companies/meta]] — Production Engineer role; coding at SWE bar; C++ + Python; TAO/Scuba/ODS context
 - [[sre/companies/amazon]] — SDE-Infra / Systems Dev Engineer; 16 Leadership Principles; AWS services depth; Dynamo paper
+- [[figure/index]] — Staff SRE at AI robotics startup; hybrid cloud+on-prem; robot fleet CI/CD; SaaS-to-self-hosted migration
 
 ## Sources
 - [[sre/sources/google-sre-book]] — Book; O'Reilly 2016; SLOs, toil, error budgets, four golden signals; blameless postmortems

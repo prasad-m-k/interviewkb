@@ -1,3 +1,7 @@
+---
+uid: d1556b41-1002-4414-9351-697c8b25d96b
+---
+
 # The Four Golden Signals
 
 **Topic:** [[obs/topics/metrics]], [[obs/topics/alerting]]

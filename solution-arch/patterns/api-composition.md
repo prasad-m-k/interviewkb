@@ -102,6 +102,8 @@ Good (batch):
 
 Always design downstream APIs to accept batch/bulk queries when composition is expected.
 
+This is the same pattern one layer down the stack as the classic SQL N+1 query problem (ORM lazy-loading a relationship inside a loop) — see [[solution-arch/concepts/sql-fundamentals]] for the SQL-level version, worked examples, and JOIN/batch fixes.
+
 ---
 
 ## When API Composition Falls Short → Use CQRS

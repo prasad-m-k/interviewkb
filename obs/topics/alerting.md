@@ -1,3 +1,7 @@
+---
+uid: 63a25ad1-1ac8-476d-ade2-358170cf2b1c
+---
+
 # Alerting
 
 **Topic:** [[obs/overview]]

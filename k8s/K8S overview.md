@@ -1,3 +1,7 @@
+---
+uid: 2cd3d7f1-82aa-44c9-829f-25c51aba10de
+---
+
 # Kubernetes Knowledge Base — Overview
 
 **Audience:** Senior MLOps / Platform engineers preparing for FAANG / cloud-native company interviews

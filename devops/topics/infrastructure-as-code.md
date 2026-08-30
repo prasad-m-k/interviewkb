@@ -1,7 +1,9 @@
 # Infrastructure as Code (IaC)
 
 **Topic:** [[devops/overview]]
-**Related:** [[devops/concepts/infrastructure-as-code]], [[devops/concepts/gitops]]
+**Related:** [[devops/concepts/infrastructure-as-code]], [[devops/concepts/terraform-state]], [[devops/concepts/terraform-patterns]], [[devops/concepts/ansible]], [[devops/patterns/terraform-module-design]], [[devops/concepts/gitops]]
+
+> This page is a survey. For interview depth, go directly to the concept pages above.
 
 ## What it is
 
@@ -117,6 +119,18 @@ A: Use `terraform state mv` to rename resources in state without destroying/recr
 
 **Q: What's the difference between `terraform plan` and `terraform apply`?**  
 A: `plan` is a dry run — shows what *would* change. `apply` executes the changes. Always review plan output before apply. In CI, run plan on PR and apply on merge to main.
+
+## Deep Dive Pages
+
+| Topic | Page |
+|---|---|
+| IaC principles, tool decision matrix, drift | [[devops/concepts/infrastructure-as-code]] |
+| Terraform state, backends, locking, split-state, import | [[devops/concepts/terraform-state]] |
+| Modules, for_each, lifecycle, dynamic blocks, testing | [[devops/concepts/terraform-patterns]] |
+| Ansible playbooks, roles, idempotency, Vault | [[devops/concepts/ansible]] |
+| Module design pattern | [[devops/patterns/terraform-module-design]] |
+| Interview scenarios (5 full walkthroughs) | [[devops/scenarios/terraform-interview]] |
+| Flashcards (15 Q&A) | [[devops/flashcards/terraform-iac-top15]] |
 
 ## Sources
 - [[devops/concepts/infrastructure-as-code]]

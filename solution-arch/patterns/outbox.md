@@ -1,3 +1,7 @@
+---
+uid: dd78c621-10d5-4343-8c92-fb89ddf1e4ae
+---
+
 # Outbox Pattern (Transactional Outbox)
 
 **Topic:** [[solution-arch/topics/integration-patterns]]
@@ -93,6 +97,7 @@ CREATE INDEX idx_outbox_pending ON outbox(status, created_at)
 - "At-least-once event delivery without 2PC"
 - "Guaranteed DB + message broker consistency"
 - "Transactional outbox"
+- "Reliable cache invalidation on write" — see [[solution-arch/patterns/hot-path-first-design]] for this specific application: the outbox event is a cache-invalidation signal rather than a generic downstream event
 
 ## Complexity
 Moderate. Requires: outbox table, relay process, deduplication on consumers (relay may publish twice if it crashes after publish but before marking published).

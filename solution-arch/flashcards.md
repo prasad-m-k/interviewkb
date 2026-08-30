@@ -333,3 +333,147 @@ Undersized pool: requests queue → latency grows → cascading failure. Oversiz
 3. **Contract:** Remove old column after all traffic is on new app version.
 
 Never rename or drop a column in the same deployment that switches traffic — always spread across 3 separate deploys.
+
+---
+
+## AI Solution Architecture, Agentic AI & OpenAI
+
+## Q: What's the decision framework for choosing prompting vs RAG vs fine-tuning vs agentic architecture?
+**A:**
+- **New/changing knowledge needed** → RAG (retrieval)
+- **Static context that fits in the prompt** → put it in the system prompt
+- **New output format/style/narrow skill, no new knowledge** → fine-tuning
+- **Neither of the above, just phrasing/reasoning help** → prompt engineering
+- **Task needs multiple steps/tool calls/runtime decisions** → agentic architecture
+
+Common trap: reaching for fine-tuning to "teach the model facts" — fine-tuning changes behavior/style reliably, not factual knowledge. Use RAG for facts.
+
+---
+
+## Q: What is the difference between a "workflow" and an "agent"?
+**A:** A workflow is a fixed, developer-defined sequence of LLM calls and tools. An agent is a system where the model's own output dynamically decides the next action — the model is the router, not the code. Start with the simplest workflow that works; add agentic complexity only when task variability demands it.
+
+---
+
+## Q: What are the six core agentic design patterns?
+**A:** Prompt chaining (fixed sequential steps), routing (classify then dispatch to a specialist), parallelization (sectioning or voting), orchestrator-worker (dynamically spawned subtasks), evaluator-optimizer (generate-critique loop), and the fully autonomous agent (open-ended ReAct loop). Complexity and cost increase in roughly that order — pick the simplest one that fits.
+
+---
+
+## Q: Why is prompt injection fundamentally different from SQL injection?
+**A:** SQL injection exploits a syntactic boundary — escaping/parameterization closes it completely. Prompt injection exploits a semantic boundary: the model has no hard separation between "instructions" and "data," both are just tokens. There is no complete syntactic fix — defense requires layering (input/output classifiers, least-privilege tool scoping, human approval gates on high-risk actions).
+
+---
+
+## Q: How do you prevent a tool-using agent from double-executing a refund on retry?
+**A:** Every side-effecting tool call carries an idempotency key (derived from conversation/turn ID); the downstream service dedupes on that key — same idempotency principle used everywhere else in distributed systems, now triggered by a non-deterministic LLM caller instead of a flaky network client.
+
+---
+
+## Q: Chat Completions vs Responses API vs Assistants API — how do you choose?
+**A:** Chat Completions: full manual control over state and the tool-call loop, best for custom/portable orchestration. Responses API: OpenAI's converged surface with optional server-side state and built-in tools, best for new builds. Assistants API: fully managed threads/runs, fastest to stand up, least orchestration control. Choose based on how much orchestration control you need vs how much plumbing you want the vendor to manage.
+
+---
+
+## Q: OpenAI direct vs Azure OpenAI — what usually decides it for a regulated enterprise?
+**A:** Azure OpenAI usually wins when the enterprise already runs on Azure AD/MSAL for identity and needs data residency, Private Link/VNet isolation, and existing compliance certifications (SOC 2, HIPAA, FedRAMP) — it inherits the existing IAM and compliance posture instead of building a parallel one. OpenAI direct wins when access to the newest models ahead of Azure's rollout is the dominant requirement.
+
+---
+
+## Q: What does Model Context Protocol (MCP) solve that function calling alone doesn't?
+**A:** Function calling defines the model-facing contract for one request. MCP standardizes the integration layer underneath it — how an application discovers and connects to a growing ecosystem of tool servers — turning an N×M (apps × tools) bespoke-integration problem into an N+M one.
+
+---
+
+## Q: What's the single largest lever for reducing LLM token cost, and why?
+**A:** Model routing — sending only tasks that need it to the flagship model and routing simple classification/extraction to a small/cheap model. Flagship models can cost 10-20x per token vs small models, making routing the highest-leverage, lowest-quality-risk cost lever, ahead of prompt caching, context trimming, and response caching.
+
+---
+
+## Q: Why can't traditional unit tests validate an LLM application?
+**A:** Output is non-deterministic — the same input can produce differently-worded but equally valid outputs, or subtly wrong ones that still look plausible. The substitute is an eval-gated pipeline: run every prompt/model/config change against a fixed golden set (exact-match, rubric, or LLM-as-judge scoring) before deploy, canary on live traffic, and monitor production proxy metrics (thumbs-down rate, escalation rate) — the direct analogue of CI/CD for prompt/model changes.
+
+---
+
+## Q: A regulator asks why your AI system denied a customer's application — what must the architecture support?
+**A:** A full, immutable trace reconstructable for the specific point in time the decision was made: exact prompt sent, retrieved context, model version, output, and any tool calls — requiring versioned prompts and versioned retrieval index snapshots, not just current state. This must be designed in from day one, not retrofitted after an audit request.
+
+---
+
+## Q: EA vs SA vs TA — what's the scope difference?
+**A:** Enterprise Architect: whole-organization technology strategy and standards, multi-year horizon. Solution Architect: one program's technical blueprint within EA guardrails, months-to-a-year horizon. Technical/Application Architect: internal design of one application/service, weeks-to-months horizon. A design interview should open by clarifying which of these scopes is actually being asked about.
+
+---
+
+## REST API Design, Caching & Hot-Path System Design
+
+## Q: What's the difference between "safe" and "idempotent" for an HTTP method, and why does it matter architecturally?
+**A:** Safe = doesn't change server state (GET, HEAD) — can be retried/prefetched/cached freely. Idempotent = calling it N times has the same effect as once (GET, PUT, DELETE) — safe for a client to retry blindly after a timeout. POST is neither, which is why a client can't safely retry a timed-out POST /orders without risking a duplicate order — hence idempotency keys.
+
+## Q: How do idempotency keys retrofit safety onto a non-idempotent POST?
+**A:** The client sends a self-generated `Idempotency-Key` header, the same value on retry. The server persists (key → response) for a bounded window; if it sees a repeated key, it returns the ORIGINAL response instead of re-executing the operation (e.g. re-creating the order or re-charging the card).
+
+## Q: Cursor-based vs offset-based pagination — when does the difference actually matter?
+**A:** Offset (`?offset=100&limit=20`) gets expensive at large offsets and is unstable if rows are inserted/deleted mid-pagination (rows shift, causing skips/duplicates). Cursor-based (`?after=cursor123`) stays O(1) via an indexed `WHERE id > :cursor` and is stable under concurrent writes — the right default for large or frequently-mutated collections; offset is fine for small, mostly-static admin lists needing "jump to page N."
+
+## Q: What's the core lens of "hot-path-first" system design?
+**A:** Reads want speed (and often tolerate staleness); writes want correctness (and never should trade it away). Classify every endpoint by traffic volume and freshness requirement BEFORE choosing any infrastructure — then scale only what's actually hot. "You do not scale the whole system, you scale what is hot."
+
+## Q: Display reads vs decision reads — what's the distinction and why does conflating them cause bugs?
+**A:** Display reads (product pages, search, recommendations) tolerate eventual consistency — a few seconds of staleness is invisible to the user. Decision reads (checkout, inventory confirmation) require fresh, authoritative data. Conflating them is exactly how a user sees one price browsing (stale cache) and gets charged a different amount at checkout (correct primary read) — a revenue/trust bug caused by routing a decision read through the display-read's cache.
+
+## Q: How does the outbox pattern apply specifically to cache invalidation?
+**A:** Write the invalidation event into the SAME database transaction as the data change (an outbox table), so both succeed or both fail together — never a separate, non-atomic "update DB, then tell the cache" step that can partially fail. A background worker publishes the event asynchronously; the cache consumer deletes the stale key. TTL remains as a safety net in case the invalidation pipeline itself fails silently.
+
+## Q: Why is TTL called "the safety net, not the primary mechanism" in a well-designed cache invalidation pipeline?
+**A:** Even a reliable outbox-driven invalidation path can fail silently (consumer down, event delayed, bug). TTL bounds the WORST CASE staleness window so the system self-heals regardless — but relying on TTL alone as the only invalidation mechanism (no event-driven path) means accepting the full TTL window as guaranteed staleness on every write, not just as a rare fallback.
+
+## Q: Why is naive hash(key) % N a bad way to shard a distributed cache?
+**A:** Changing N (a node joins or leaves) remaps almost every key at once, causing a near-total cache wipe exactly when the cluster is already in a fragile state. Consistent hashing (nodes and keys hashed onto the same ring) bounds the remapped fraction to roughly 1/N instead.
+
+## Q: What is a cache "gutter pool" and what problem does it solve?
+**A:** A small pool of spare cache nodes on standby. When a primary cache node fails, its traffic routes to the gutter pool instead of triggering a rehash across survivors — avoiding a stampede of simultaneous cache misses hitting the database right when the cluster is already degraded. From Facebook's Memcache scaling paper.
+
+## Q: How does Facebook's "lease" mechanism prevent thundering herd on a popular cache key's expiry?
+**A:** When a hot key expires, the first server to miss gets a short-lived lease token and is the ONLY one allowed to query the DB and repopulate the cache; every other server missing the same key during the lease window waits/retries instead of also querying the DB — turning N simultaneous DB queries into 1.
+
+---
+
+## Tiered Caching Platforms (Tier-0 / Platform-Team View)
+
+## Q: In a two-tier cache design (in-process + distributed), what determines whether a dataset belongs in Tier 1 or Tier 2?
+**A:** Working-set size and sharing need. Tier 1 (in-process/local) is free and sub-microsecond but small and per-instance — good for small, extremely hot data (routing tables, flags). Tier 2 (distributed) is shared across the fleet and survives individual restarts — needed once data must stay consistent/shared across instances or exceeds one process's memory.
+
+## Q: What is zone-aware replication in a distributed cache, and what does it protect against?
+**A:** Cache data is replicated across multiple availability zones, and the client library prefers reading from the local AZ's replica (for latency and cost) but fails over to another AZ's replica if the local one is unhealthy. It protects against an entire AZ failure turning into a simultaneous, fleet-wide cache wipe. (Public real-world precedent: Netflix's EVCache, a Memcached-based distributed cache.)
+
+## Q: Why does a platform team put an abstraction/SDK layer in front of its caching system instead of letting callers talk to the cache directly?
+**A:** Two reasons: (1) developer productivity — every calling team gets a single, secure, consistent interface instead of hand-rolling cache-aside logic and retry policy; (2) platform optionality — because callers depend on the abstraction rather than the backend, the platform team can change sharding strategy, swap the underlying engine, or migrate a dataset to a different storage system without every caller changing code.
+
+## Q: At extreme scale, what are the highest-impact levers for keeping a caching platform's cost down?
+**A:** Roughly in order: (1) push small hot working sets to the free in-process tier instead of the distributed tier; (2) tune TTL/eviction per dataset rather than one global policy; (3) compress cached values to cut RAM footprint (usually the dominant cost driver); (4) decide build-vs-buy per dataset, not platform-wide; (5) prefer local-AZ reads by default to avoid cross-AZ data-transfer cost on every request.
+
+---
+
+## Microsoft Responsible AI (CoreAI) #ResponsibleAI
+
+## Q: What are the two distinct surfaces a Responsible AI role at Microsoft's CoreAI org must govern?
+**A:** (1) Product-facing RAI — guardrails, content safety, and governance for AI systems shipped to customers (see [[solution-arch/concepts/ai-guardrails-and-safety]], [[solution-arch/concepts/azure-ai-content-safety]]). (2) SDLC-facing RAI — governing the AI tooling used internally to build software (AI-generated requirements, design docs, code) so hallucinated or subtly wrong output doesn't silently become production infrastructure (see [[solution-arch/concepts/responsible-ai-sdlc-governance]]). Most candidates only prepare the first.
+
+## Q: What are Azure AI Content Safety's 4 built-in harm categories, and how are they scored?
+**A:** Hate, Sexual, Violence, Self-Harm. Each is scored independently on a discrete severity scale of 0/2/4/6 (not a continuous score) — content can be high-severity on one category and zero on another. Discrete levels make the block/allow threshold an auditable policy decision per category rather than an ad hoc per-team judgment call.
+
+## Q: What do Prompt Shields' two sub-detectors catch, and which one maps to indirect prompt injection?
+**A:** User Prompt attacks catch direct jailbreak attempts in the user's own input. Document attacks catch indirect/injected instructions hidden inside retrieved documents, emails, or web content the model ingests — the productized defense for the indirect-injection threat described in [[solution-arch/concepts/ai-guardrails-and-safety]].
+
+## Q: Is Azure OpenAI's content filter opt-in or opt-out?
+**A:** On by default and not fully removable without a Microsoft-approved modified-content-filter application — a platform-level enforcement decision, not an app-level toggle. This is the concrete mechanism behind the "provider enforces a guardrail floor" framing in [[solution-arch/topics/ai-governance-responsible-ai]].
+
+## Q: Give an example of an SDLC-facing RAI risk that has no equivalent in product-facing RAI.
+**A:** Package hallucination / slopsquatting — an AI coding assistant suggests a plausible-but-nonexistent dependency name; an attacker has pre-registered that exact name as a malicious package. The control is a dependency-verification CI gate blocking anything outside an approved registry, regardless of how confidently the assistant suggested it. See [[solution-arch/concepts/responsible-ai-sdlc-governance]].
+
+## Q: Why should the code-review bar for AI-authored changes be HIGHER, not lower, than for human-authored changes?
+**A:** Automation bias — reviewers are measurably less scrutinous of confident, well-formatted AI output than of a colleague's rough draft. A structured, explicit review checklist for AI-assisted changes counteracts this; treating AI-authored code as "probably fine, it's AI" is backwards.
+
+## Q: A CoreAI content-safety service sits in the hot path of every AI call across Microsoft's product surface. What's the central availability design decision?
+**A:** Fail-open vs fail-closed policy, decided per harm-severity category, not as an afterthought — a regional outage in the safety layer can't be allowed to take down every downstream AI product (Copilot, Office, Teams, Azure OpenAI customers), but it also can't silently let unmoderated content through for high-severity categories. This is the same HA reasoning as [[solution-arch/scenarios/high-availability-platform]] applied to a company-wide hard dependency.

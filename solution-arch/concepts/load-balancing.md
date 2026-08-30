@@ -1,7 +1,8 @@
 # Load Balancing
 
 **Topic:** [[solution-arch/topics/scalability-and-reliability]]
-**Related:** [[solution-arch/concepts/api-gateway]], [[solution-arch/concepts/rate-limiting]], [[solution-arch/concepts/caching]]
+**Related:** [[solution-arch/concepts/api-gateway]], [[solution-arch/concepts/rate-limiting]], [[solution-arch/concepts/caching]], [[solution-arch/concepts/network-architecture-fundamentals]]
+**Deep dive:** [[sre/concepts/load-balancers]] (SRE operational view), [[sre/concepts/networking-fundamentals]] (TCP/TLS handshake mechanics referenced by SSL Termination below)
 
 ## What it is
 A load balancer distributes incoming requests across multiple backend instances to prevent any single instance from being overwhelmed, improve availability, and enable horizontal scaling.

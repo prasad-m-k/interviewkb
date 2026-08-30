@@ -1,3 +1,7 @@
+---
+uid: f4b777ce-f2ec-4482-be2c-db631f7cd43c
+---
+
 # Rate Limiting
 
 **Topic:** [[solution-arch/topics/security-architecture]], [[solution-arch/topics/scalability-and-reliability]]

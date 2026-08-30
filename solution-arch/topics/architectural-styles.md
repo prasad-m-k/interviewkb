@@ -151,6 +151,9 @@ Core domain logic at the centre with no framework dependencies. External systems
 | Serverless | Very low | Infinite | Medium | Any |
 | Hexagonal | Low (internal) | Depends | Medium | Any |
 
+## Related
+- [[solution-arch/topics/agentic-ai-architecture]] — agentic systems introduce a non-deterministic control-flow style (the model decides routing/sequencing) that doesn't fit neatly into any style above; see the workflow-vs-agent distinction there
+
 ## Sources
 - [[solution-arch/sources/clean-architecture]]
 - [[solution-arch/sources/designing-data-intensive-applications]]

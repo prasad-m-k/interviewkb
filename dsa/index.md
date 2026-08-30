@@ -5,6 +5,8 @@ tags:
   - algorithms
   - data-structures
   - interview-prep
+uid: a8d0008a-9d30-4a59-b96c-e38092837f9f
+
 ---
 
 # DSA Index

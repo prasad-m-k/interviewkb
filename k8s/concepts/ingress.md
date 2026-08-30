@@ -10,13 +10,13 @@ Key distinction: the Ingress *object* is just config. Without an Ingress Control
 
 ## Ingress Controller Options
 
-| Controller | Common In | Notes |
-|---|---|---|
-| **nginx-ingress** | Self-managed K8s | Most common; highly configurable |
-| **AWS ALB Ingress Controller** | EKS | Provisions ALB per Ingress |
-| **GKE Ingress** | GKE | Provisions GCLB; integrates with Cloud Armor |
-| **Traefik** | Edge/homelab | Dynamic config; good for service mesh |
-| **Istio Gateway** | Service mesh | Combines with VirtualService for fine-grained routing |
+| Controller                     | Common In        | Notes                                                 |
+| ------------------------------ | ---------------- | ----------------------------------------------------- |
+| **nginx-ingress**              | Self-managed K8s | Most common; highly configurable                      |
+| **AWS ALB Ingress Controller** | EKS              | Provisions ALB per Ingress                            |
+| **GKE Ingress**                | GKE              | Provisions GCLB; integrates with Cloud Armor          |
+| **Traefik**                    | Edge/homelab     | Dynamic config; good for service mesh                 |
+| **Istio Gateway**              | Service mesh     | Combines with VirtualService for fine-grained routing |
 
 ## YAML Example
 

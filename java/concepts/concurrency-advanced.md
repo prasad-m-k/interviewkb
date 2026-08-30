@@ -1,3 +1,7 @@
+---
+uid: 4772873c-dea6-426b-a550-e109e59775b8
+---
+
 # Advanced Concurrency — Thread Pools, CompletableFuture, Virtual Threads
 
 **Topic:** [[java/topics/concurrency]]

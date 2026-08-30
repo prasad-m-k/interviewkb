@@ -8,7 +8,7 @@ tags:
 ---
 
 # ML Knowledge Base — Index
-Last updated: 2026-04-21
+Last updated: 2026-08-16
 
 ## Overview
 - [[ML overview]] — High-level synthesis, key themes, and interview strategy
@@ -38,6 +38,13 @@ Last updated: 2026-04-21
 - [[ml/concepts/class-imbalance]] — SMOTE, class weights, threshold tuning
 - [[ml/concepts/precision-recall-auc]] — PR curves, ROC-AUC, F1; which metric when
 - [[ml/concepts/overfitting]] — Diagnosis checklist, prevention strategies
+- [[ml/concepts/llm-fundamentals]] — Pretraining, SFT, RLHF, KV cache, inference optimization; critical for Google
+- [[ml/concepts/distributed-training]] — Data/tensor/pipeline parallelism, ZeRO, FSDP, TPU architecture
+- [[ml/concepts/rag]] — Retrieval-Augmented Generation: dense retrieval, chunking, evaluation, failure modes
+- [[ml/concepts/reinforcement-learning]] — RL basics, policy gradient, PPO, bandits, RLHF connection
+- [[ml/concepts/gpu-performance-engineering]] — Roofline model, CUDA/ROCm/Triton, kernel fusion, profiling (Nsight/PyTorch Profiler) #ResponsibleAI
+- [[ml/concepts/ml-compilers-and-runtimes]] — torch.compile/TorchDynamo/Inductor, ONNX Runtime execution providers, XLA comparison, model onboarding #ResponsibleAI
+- [[ml/concepts/ml-benchmarking-and-regression-detection]] — Benchmark methodology, statistically-aware regression gates, one-off analysis vs platform capability #ResponsibleAI
 
 ## Patterns
 - [[ml/patterns/feature-engineering-patterns]] — Systematic FE for tabular, text, and time-series
@@ -45,6 +52,8 @@ Last updated: 2026-04-21
 - [[ml/patterns/hyperparameter-tuning]] — Grid, random, Bayesian, population-based
 - [[ml/patterns/transfer-learning]] — When and how to fine-tune; frozen vs. unfrozen layers
 - [[ml/patterns/data-augmentation]] — CV and NLP augmentation strategies
+- [[ml/patterns/rlhf]] — RLHF pipeline: SFT → Reward Model → PPO; DPO alternative
+- [[ml/patterns/rag-pattern]] — RAG design pattern: indexing pipeline, serving pipeline, system design
 
 ## Scenarios
 - [[ml/scenarios/model-not-converging]] — Loss stuck or exploding; systematic debug
@@ -54,10 +63,20 @@ Last updated: 2026-04-21
 - [[ml/scenarios/recommendation-system-design]] — Collaborative filtering, two-tower, ranking
 - [[ml/scenarios/search-ranking-design]] — Learning to rank, feature design, offline/online eval
 - [[ml/scenarios/fraud-detection-design]] — Real-time scoring, label sparsity, feedback loops
+- [[ml/scenarios/youtube-recommendations]] — Two-stage pipeline, multi-objective ranking, cold start; Google flagship
+- [[ml/scenarios/google-ads-ctr]] — CTR prediction, Wide & Deep, position bias, calibration; Google Ads
+- [[ml/scenarios/llm-service-design]] — LLM serving: KV cache, continuous batching, speculative decoding, cost
+- [[ml/scenarios/content-moderation]] — Multi-stage ML pipeline, human-in-the-loop, fairness; YouTube/Search
+
+## Companies
+- [[ml/companies/google-ml]] — Google AI/ML interview process, ML coding, system design, Googleyness, napkin math
+- [[ml/companies/microsoft-ai-frameworks]] — Senior/Principal SWE, AI Frameworks: GPU perf, compilers/runtimes, benchmarking, hardware-portability #ResponsibleAI
 
 ## Flashcards
 - [[ml/flashcards/ml-concepts-anki]] — Anki deck: core concepts (Obsidian_to_Anki format)
 - [[ml/flashcards/ml-scenarios-anki]] — Anki deck: scenario-based interview questions
+- [[ml/flashcards/google-ml-top20]] — Top 20 Q&A for Google AI/ML: theory, system design, LLMs, responsible AI
+- [[ml/flashcards/microsoft-ai-frameworks-top15]] — Top 15 Q&A for Microsoft AI Frameworks: GPU perf, compilers, benchmarking, hardware portability #ResponsibleAI
 
 ## Mindmap
 - [[ml/mindmap]] — Visual overview (obsidian-mind-map compatible)

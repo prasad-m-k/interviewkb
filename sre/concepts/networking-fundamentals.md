@@ -136,6 +136,99 @@ A browser verifies: leaf cert → signed by intermediate → signed by root → 
 
 ---
 
+## HTTP-Layer Handshake (ALPN, HTTP/2, HTTP/3/QUIC)
+
+The TCP and TLS handshakes above get a connection open and encrypted — but a browser or client still needs to agree with the server on WHICH version of HTTP to speak, and (for HTTP/2+) exchange a few more framing details before real requests flow. This is the piece interviewers probe when they ask "what's the HTTP handshake" specifically, as distinct from TCP/TLS.
+
+### ALPN — negotiating the HTTP version inside the TLS handshake itself
+
+ALPN (Application-Layer Protocol Negotiation) is a TLS extension, not a separate round trip — it rides inside the same ClientHello/ServerHello messages already shown above, at zero extra RTT cost.
+
+```
+Client                                  Server
+  │──── ClientHello ──────────────────▶│
+  │     ALPN extension:                 │
+  │     protocols = ["h2", "http/1.1"]  │
+  │     (offered in preference order)   │
+  │                                     │
+  │◀─── ServerHello ────────────────────│
+  │     ALPN extension:                 │
+  │     protocol = "h2"  (server picks  │
+  │     the highest one it supports)    │
+  │                                     │
+  │══ both sides now know: speak h2 ════│
+```
+
+If the server doesn't support HTTP/2, it omits/rejects the ALPN extension and the client falls back to HTTP/1.1 — no extra handshake needed either way. This is why upgrading a service to HTTP/2 is often "just" a server/load-balancer config change: ALPN negotiation means old HTTP/1.1-only clients keep working automatically.
+
+### HTTP/1.1 — no extra handshake, just framing
+
+```
+GET /orders/456 HTTP/1.1
+Host: api.example.com
+Connection: keep-alive
+
+  → plaintext request line + headers + optional body, sent directly
+    over the now-open TCP(+TLS) connection. No additional handshake.
+
+Connection: keep-alive keeps the TCP connection open for the NEXT
+request too, avoiding a fresh TCP+TLS handshake per request — the
+real-world reason browsers open 6-8 parallel persistent connections
+per host rather than one connection per request.
+```
+
+### HTTP/2 — connection preface + SETTINGS exchange
+
+Once ALPN has negotiated "h2", both sides must complete one more exchange before any request/response frames flow:
+
+```
+Client                                  Server
+  │──── Connection Preface ───────────▶│  fixed 24-byte magic string:
+  │     "PRI * HTTP/2.0\r\n\r\n         │  "PRI * HTTP/2.0\r\n\r\n
+  │      SM\r\n\r\n"                    │   SM\r\n\r\n" — confirms
+  │                                     │   both sides really mean h2
+  │──── SETTINGS frame ───────────────▶│  client's params (max
+  │                                     │  concurrent streams, initial
+  │                                     │  window size, header table
+  │                                     │  size for HPACK, ...)
+  │                                     │
+  │◀─── SETTINGS frame ─────────────────│  server's params
+  │──── SETTINGS ACK ──────────────────▶│
+  │◀─── SETTINGS ACK ────────────────────│
+  │                                     │
+  │══ binary-framed, multiplexed ═══════│  many concurrent streams,
+  │   streams begin                     │  HPACK header compression,
+  │                                     │  one TCP connection total
+```
+
+This SETTINGS exchange is why HTTP/2 needs a fully-established TLS connection first (there's no HTTP/2-over-plaintext in browsers, even though the spec allows "h2c" for internal/non-browser use) — the preface and SETTINGS frames themselves are the "handshake" at this layer, on top of TCP+TLS.
+
+### HTTP/3 (QUIC) — the transport and TLS handshake become ONE
+
+HTTP/3 doesn't run over TCP at all — QUIC runs over UDP and folds the transport-level handshake and the TLS 1.3 handshake into the same flight, instead of TCP's handshake completing first and THEN TLS starting on top of it:
+
+```
+TCP + TLS 1.3 (HTTP/1.1 or HTTP/2):        QUIC (HTTP/3):
+  1. TCP SYN/SYN-ACK/ACK   (1 RTT)           1. QUIC Initial packet:
+  2. TLS 1.3 ClientHello/                       transport params +
+     ServerHello+Finished  (1 RTT)              TLS 1.3 ClientHello,
+  ────────────────────────                      combined            (1 RTT)
+  Total: 2 RTT before data                   2. Server responds with
+                                                 transport params +
+                                                 TLS ServerHello+
+                                                 Finished, combined
+                                              ────────────────────────
+                                              Total: 1 RTT before data
+                                              (0-RTT possible on
+                                              resumption — same
+                                              replay caveat as TLS
+                                              1.3 0-RTT above)
+```
+
+This — not just per-stream loss recovery — is the other half of why HTTP/3 wins hardest on high-latency or lossy mobile networks: every RTT saved on connection setup matters most when RTTs are expensive to begin with. See [[solution-arch/concepts/network-architecture-fundamentals]] for the architecture-level "where do we actually deploy HTTP/3 first" decision.
+
+---
+
 ## Encryption at Different Network Layers
 
 ```
@@ -410,9 +503,12 @@ IPsec ESP     50       L3 encryption
 **Q: "What happens at each layer when you type https://example.com?"**
 1. DNS: resolve `example.com` → IP (UDP port 53)
 2. TCP: 3-way handshake to port 443
-3. TLS: ClientHello → ServerHello+cert → key exchange → session keys
-4. HTTP/2: GET / over encrypted channel
+3. TLS: ClientHello (with ALPN offering `["h2", "http/1.1"]`) → ServerHello+cert (ALPN picks `h2`) → key exchange → session keys
+4. HTTP/2: connection preface + SETTINGS exchange, THEN `GET /` over the encrypted, multiplexed channel
 5. Response flows back through the same layers
+
+**Q: "Is there really a separate 'HTTP handshake', or is it just TCP + TLS?"**
+There's a real third layer on top of TCP+TLS, and it differs by HTTP version: HTTP/1.1 has none (requests just start flowing after TLS); HTTP/2 requires a connection preface + SETTINGS frame exchange before any request/response frames are valid; HTTP/3 has no separate handshake at all because QUIC merges the transport and TLS 1.3 handshakes into one flight, so by the time the connection is "up," HTTP/3 is already past what TCP+TLS+H2-preface would still be doing across three separate steps.
 
 **Q: "What's the difference between a forward proxy and a reverse proxy?"**
 Forward = protects/controls clients (egress). Reverse = protects/controls servers (ingress). The "direction" refers to where the anonymization happens.

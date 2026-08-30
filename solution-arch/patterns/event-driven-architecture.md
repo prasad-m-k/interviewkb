@@ -1,3 +1,7 @@
+---
+uid: e47126a5-02ce-4598-8ea4-46ea403a5f41
+---
+
 # Event-Driven Architecture (EDA)
 
 **Topic:** [[solution-arch/topics/integration-patterns]], [[solution-arch/topics/architectural-styles]]

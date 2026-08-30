@@ -1,7 +1,7 @@
 # Pattern: Incident Response
 
 **Topic:** [[devops/overview]]
-**Related:** [[devops/topics/observability]], [[devops/scenarios/production-outage]]
+**Related:** [[devops/topics/observability]], [[devops/scenarios/production-outage]], [[sre/concepts/escalation-management]], [[sre/concepts/rca-basics]], [[sre/concepts/slo-sli-sla]]
 
 ## The Framework: Detect → Triage → Mitigate → Resolve → Learn
 
@@ -92,6 +92,8 @@ Alert fires / user report
 ## Root Cause
 payment-svc v2.3.1 had a missing null check on card_type field.
 Cards without card_type (older accounts) caused an unhandled exception.
+(See [[sre/concepts/rca-basics]] for the methodology — 5 Whys / Fishbone —
+used to get from this trigger to an actual root cause, not just a symptom.)
 
 ## Contributing Factors
 - Integration tests did not cover null card_type scenario
@@ -121,3 +123,6 @@ A: Alert on symptoms (user-facing impact), not causes. Every alert must be actio
 ## Sources
 - [[devops/topics/observability]]
 - [[devops/overview]]
+- [[sre/concepts/escalation-management]] — when/how to escalate mid-incident, and the exit checklist for closing an escalation cleanly
+- [[sre/concepts/rca-basics]] — the RCA methodology (5 Whys, Fishbone, corrective vs. preventive action) that fills this template's Root Cause section
+- [[sre/concepts/slo-sli-sla]] — how an incident's duration/impact maps to error-budget consumption

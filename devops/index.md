@@ -7,6 +7,8 @@ tags:
   - infrastructure
   - interview-prep
   - cloud
+uid: 1b1eaa6e-119a-4554-92b9-670ffa7aa169
+
 ---
 
 # DevOps — Index
@@ -30,13 +32,17 @@ Last updated: 2026-04-21
 - [[devops/concepts/deployment-strategies]] — Blue-green, canary, rolling, feature flags — trade-offs
 - [[devops/concepts/gitops]] — Git as single source of truth; Argo CD / Flux reconciliation loop
 - [[devops/concepts/observability-pillars]] — Metrics (RED/USE), logs (structured), traces (distributed), alerting
-- [[devops/concepts/infrastructure-as-code]] — Declarative vs imperative, state management, drift detection
+- [[devops/concepts/infrastructure-as-code]] — Declarative vs imperative, tool decision matrix (Terraform vs Ansible vs Pulumi), drift, IaC team patterns
+- [[devops/concepts/terraform-state]] — State file internals, remote backends (S3/GCS/Azure), locking, `state mv`/`rm`/`import`, workspaces, split-state design
+- [[devops/concepts/terraform-patterns]] — Variables, count vs for_each, dynamic blocks, lifecycle meta-arguments, data sources, providers, testing
+- [[devops/concepts/ansible]] — Agentless config management; playbooks, roles, inventory, idempotency, Vault, Terraform+Ansible pairing
 - [[devops/concepts/secrets-management]] — Vault, K8s secrets, SOPS, sealed secrets — never in Git
 - [[devops/concepts/service-mesh]] — Sidecar proxies, mTLS, traffic shifting, Istio/Linkerd
 
 ## Patterns
 - [[devops/patterns/zero-downtime-deployment]] — Combining deployment strategies; readiness probes; rollback triggers
 - [[devops/patterns/incident-response]] — Detect → triage → mitigate → resolve → postmortem framework
+- [[devops/patterns/terraform-module-design]] — Module directory structure, versioning, caller pattern, blast radius splitting
 
 ## Scenarios (Interview Questions)
 - [[devops/scenarios/production-outage]] — "Your deploy just broke prod. Walk me through it."
@@ -45,9 +51,11 @@ Last updated: 2026-04-21
 - [[devops/scenarios/secret-exposed]] — "A secret was committed to Git. Incident response."
 - [[devops/scenarios/ci-cd-design-interview]] — "Design a CI/CD pipeline for a microservices app."
 - [[devops/scenarios/high-latency-no-errors]] — "Latency spiked but error rate is zero. Debug."
+- [[devops/scenarios/terraform-interview]] — Design TF for a new company; state corruption recovery; CFN migration; GitOps pipeline
 
 ## Flashcards
 - [[devops/flashcards/devops-faang-top15]] — Top 15 DevOps interview Qs with full answers
+- [[devops/flashcards/terraform-iac-top15]] — 15 Terraform & IaC Q&A: state, modules, for_each, lifecycle, Ansible, multi-env design
 
 ## Log
 - [[devops/log]] — Append-only change log

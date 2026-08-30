@@ -1,6 +1,11 @@
+---
+uid: c550783e-e3aa-49ac-9d5e-95458e1e096c
+---
+
 # Security Architecture
 
-**Related:** [[solution-arch/concepts/rate-limiting]], [[solution-arch/concepts/api-gateway]], [[solution-arch/topics/nfr-quality-attributes]]
+**Related:** [[solution-arch/concepts/rate-limiting]], [[solution-arch/concepts/api-gateway]], [[solution-arch/topics/nfr-quality-attributes]], [[solution-arch/concepts/network-architecture-fundamentals]]
+**Protocol-level deep dive (TCP/TLS handshake mechanics, cert chains, forward secrecy):** [[sre/concepts/networking-fundamentals]]
 
 ---
 

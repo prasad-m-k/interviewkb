@@ -302,3 +302,42 @@ Rules:
 - Before answering architecture or codebase questions, read graphify-out/GRAPH_REPORT.md for god nodes and community structure
 - If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
 - After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)
+
+
+
+# Googliness & Leadership — Interview Notes
+_Aug 30, 2026_
+
+## Core Theme
+Navigating ambiguity and intellectual humility.
+
+**Pillars:** Curiosity · Innovation · Collaboration · Adaptability
+
+## Traits to Demonstrate
+- Inquisitive
+- Goal oriented
+- Proactive
+- Humble
+- Respectful
+- Honest
+- Empathetic
+- Sense of humor
+
+## Evaluation Areas
+
+### 1. General Cognitive Ability
+Break down complex problems and think through them out loud.
+
+### 2. Leadership
+Taking initiative and showing ownership when things go wrong.
+(Taking ownership and showing initiative.)
+
+### 3. Role-Related Knowledge
+Deep mastery of your craft.
+
+### 4. Googliness
+Collaborative, curious, adaptable.
+
+## The Bottom Line
+**Your decision. Your reasoning. Your outcome.**
+

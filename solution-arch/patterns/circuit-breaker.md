@@ -1,3 +1,7 @@
+---
+uid: 2168da8f-8d60-42a7-a573-110f8f830253
+---
+
 # Circuit Breaker
 
 **Topic:** [[solution-arch/topics/scalability-and-reliability]]

@@ -1,3 +1,7 @@
+---
+uid: 3fbe350b-095b-4898-885e-d32408467ca4
+---
+
 # Message Queues & Event Streaming
 
 **Topic:** [[solution-arch/topics/integration-patterns]]

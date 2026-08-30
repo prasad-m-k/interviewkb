@@ -1,6 +1,6 @@
 # Integration Patterns
 
-**Related:** [[solution-arch/concepts/api-gateway]], [[solution-arch/concepts/message-queues]], [[solution-arch/patterns/event-driven-architecture]]
+**Related:** [[solution-arch/concepts/api-gateway]], [[solution-arch/concepts/message-queues]], [[solution-arch/patterns/event-driven-architecture]], [[solution-arch/concepts/rest-api-design-principles]]
 
 ---
 

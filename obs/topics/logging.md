@@ -1,3 +1,7 @@
+---
+uid: f6de5c26-0d5c-4ec5-a006-7f525afb89f2
+---
+
 # Logging
 
 **Topic:** [[obs/overview]]

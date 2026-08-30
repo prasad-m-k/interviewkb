@@ -21,4 +21,4 @@ The Hexagonal (Ports and Adapters) architecture described here is the cloud-agno
 - Hexagonal architecture: swap DB without touching business logic; test without a running server
 
 ## What it updated
-- Informed: [[solution-arch/topics/architectural-styles]] (hexagonal section), [[solution-arch/topics/cloud-agnostic-principles]], [[solution-arch/patterns/bff]], [[solution-arch/patterns/strangler-fig]], [[solution-arch/diagrams/c4-model]]
+- Informed: [[solution-arch/topics/architectural-styles]] (hexagonal section), [[solution-arch/topics/cloud-agnostic-principles]], [[solution-arch/patterns/bff]], [[solution-arch/patterns/strangler-fig]], [[c4-model]]

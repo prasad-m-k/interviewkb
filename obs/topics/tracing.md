@@ -1,3 +1,7 @@
+---
+uid: 8a48a037-9511-4745-8db2-9aff569678a1
+---
+
 # Distributed Tracing
 
 **Topic:** [[obs/overview]]

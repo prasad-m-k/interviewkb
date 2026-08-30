@@ -1,7 +1,7 @@
 # API Gateway
 
 **Topic:** [[solution-arch/topics/integration-patterns]], [[solution-arch/topics/security-architecture]]
-**Related:** [[solution-arch/concepts/rate-limiting]], [[solution-arch/concepts/load-balancing]], [[solution-arch/patterns/bff]]
+**Related:** [[solution-arch/concepts/rate-limiting]], [[solution-arch/concepts/load-balancing]], [[solution-arch/patterns/bff]], [[solution-arch/concepts/rest-api-design-principles]]
 
 ## What it is
 An API Gateway is a single entry point for all client requests. It handles cross-cutting concerns — authentication, rate limiting, routing, logging, SSL termination — so that individual services don't have to.
@@ -25,17 +25,17 @@ Partner API─────────▶│  4. Route by path/header          �
 
 ## Core Responsibilities
 
-| Responsibility | Detail |
-|---------------|--------|
-| **Routing** | `/api/users` → User Service; `/api/orders` → Order Service |
-| **Authentication** | Verify JWT, API key, or OAuth token |
-| **Rate Limiting** | Per-client or per-endpoint throttling |
-| **SSL Termination** | Handle HTTPS; backend uses HTTP |
-| **Load Balancing** | Distribute to service instances |
-| **Request Transformation** | Add headers, rewrite paths, convert JSON/XML |
-| **Response Aggregation** | Merge responses from multiple services (see BFF) |
-| **Caching** | Cache GET responses at gateway layer |
-| **Observability** | Centralised access logging, metrics, tracing injection |
+| Responsibility             | Detail                                                     |
+| -------------------------- | ---------------------------------------------------------- |
+| **Routing**                | `/api/users` → User Service; `/api/orders` → Order Service |
+| **Authentication**         | Verify JWT, API key, or OAuth token                        |
+| **Rate Limiting**          | Per-client or per-endpoint throttling                      |
+| **SSL Termination**        | Handle HTTPS; backend uses HTTP                            |
+| **Load Balancing**         | Distribute to service instances                            |
+| **Request Transformation** | Add headers, rewrite paths, convert JSON/XML               |
+| **Response Aggregation**   | Merge responses from multiple services (see BFF)           |
+| **Caching**                | Cache GET responses at gateway layer                       |
+| **Observability**          | Centralised access logging, metrics, tracing injection     |
 
 ## Gateway vs Service Mesh vs Load Balancer
 

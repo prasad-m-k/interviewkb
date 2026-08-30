@@ -1,3 +1,7 @@
+---
+uid: 171cc924-5357-49f0-8e9d-fd2cc58707dd
+---
+
 # ACID vs BASE
 
 **Topic:** [[solution-arch/topics/data-architecture]]
@@ -5,12 +9,12 @@
 
 ## ACID (Traditional RDBMS)
 
-| Property | Meaning | Example |
-|----------|---------|---------|
-| **A**tomicity | All-or-nothing: either all operations succeed or none do | Transfer: debit + credit either both happen or neither |
-| **C**onsistency | Database moves from one valid state to another (constraints respected) | Balance can't go negative if constraint exists |
-| **I**solation | Concurrent transactions don't interfere with each other | Two users updating same row don't corrupt each other |
-| **D**urability | Committed transactions survive crashes | Written to WAL before ack; survives power loss |
+| Property        | Meaning                                                                | Example                                                |
+| --------------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
+| **A**tomicity   | All-or-nothing: either all operations succeed or none do               | Transfer: debit + credit either both happen or neither |
+| **C**onsistency | Database moves from one valid state to another (constraints respected) | Balance can't go negative if constraint exists         |
+| **I**solation   | Concurrent transactions don't interfere with each other                | Two users updating same row don't corrupt each other   |
+| **D**urability  | Committed transactions survive crashes                                 | Written to WAL before ack; survives power loss         |
 
 ```
 BEGIN TRANSACTION

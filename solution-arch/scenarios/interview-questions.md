@@ -1,6 +1,6 @@
 # Solution Architecture — Scenario Interview Questions
 
-**Related:** [[solution-arch/scenarios/design-url-shortener]], [[solution-arch/scenarios/design-rate-limiter]], [[solution-arch/scenarios/design-notification-system]], [[solution-arch/scenarios/monolith-to-microservices]], [[solution-arch/scenarios/high-availability-platform]]
+**Related:** [[solution-arch/scenarios/design-url-shortener]], [[solution-arch/scenarios/design-rate-limiter]], [[solution-arch/scenarios/design-notification-system]], [[solution-arch/scenarios/monolith-to-microservices]], [[solution-arch/scenarios/high-availability-platform]], [[solution-arch/patterns/hot-path-first-design]]
 
 ---
 
@@ -27,6 +27,8 @@
 5. Trade-offs (5 min)
    └── What you'd do differently at different scales
 ```
+
+**Filling in Step 3 well is what separates senior answers from junior ones.** Rather than drawing a generic three-tier diagram with a cache box glued on, classify the system's endpoints first — read vs write, display-reads (staleness OK) vs decision-reads (must be fresh) — and derive the diagram from that classification. See [[solution-arch/patterns/hot-path-first-design]] for the full methodology and a worked e-commerce example.
 
 ---
 

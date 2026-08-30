@@ -1,7 +1,11 @@
+---
+uid: 3954fa98-b063-4319-8d66-164eca6112e1
+---
+
 # Caching
 
 **Topic:** [[solution-arch/topics/scalability-and-reliability]]
-**Related:** [[solution-arch/concepts/load-balancing]], [[solution-arch/concepts/api-gateway]], [[solution-arch/concepts/idempotency]]
+**Related:** [[solution-arch/concepts/load-balancing]], [[solution-arch/concepts/api-gateway]], [[solution-arch/concepts/idempotency]], [[solution-arch/concepts/distributed-caching]], [[solution-arch/patterns/hot-path-first-design]]
 
 ## What it is
 Caching stores the result of expensive operations in a fast-access layer so that subsequent requests can be served without recomputing or re-fetching from the origin.
@@ -136,5 +140,18 @@ Cache-Control: stale-while-revalidate=300     # serve stale for 5min while fetch
 - "How do you invalidate a cache in a distributed system?"
 - "What are the risks of in-process caching vs. distributed caching?"
 
+## Related: Scaling a Cache Beyond One Node
+
+Everything above assumes a single cache instance (or a simple pair). Once the working set or request rate outgrows that, sharding, replication, and cross-region consistency become the relevant problems — see [[solution-arch/concepts/distributed-caching]] for consistent hashing, gutter pools, and lease-based stampede protection at scale.
+
+## Related: Deciding WHERE Caching Belongs at All
+
+Before choosing eviction policies or cache layers, decide which endpoints actually need caching in the first place — see [[solution-arch/patterns/hot-path-first-design]] for the read/write and display/decision classification that answers this.
+
+## Related: Full Platform-Team Scenario
+
+For a worked system-design scenario that puts these strategies to use in a Tier-0, multi-tier, cost-constrained platform (the kind of problem an internal caching/data-stores team owns, not just a caller of the cache), see [[solution-arch/scenarios/design-tiered-caching-platform]].
+
 ## Sources
 - [[solution-arch/sources/designing-data-intensive-applications]]
+- [[solution-arch/sources/hot-path-first-system-design]]

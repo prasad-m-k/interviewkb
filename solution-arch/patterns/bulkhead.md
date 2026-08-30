@@ -1,3 +1,7 @@
+---
+uid: 7394a9ff-e5cc-4add-b847-d2951a1c8868
+---
+
 # Bulkhead Pattern
 
 **Topic:** [[solution-arch/topics/scalability-and-reliability]]

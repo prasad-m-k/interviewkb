@@ -1,3 +1,7 @@
+---
+uid: 958d5445-4d80-47f5-9a0c-2150cd1b034f
+---
+
 # Saga Pattern
 
 **Topic:** [[solution-arch/topics/data-architecture]], [[solution-arch/topics/integration-patterns]]

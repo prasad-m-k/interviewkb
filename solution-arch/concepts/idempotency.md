@@ -1,3 +1,7 @@
+---
+uid: 798b81a9-f178-4dd4-946e-a19797d0b848
+---
+
 # Idempotency
 
 **Topic:** [[solution-arch/topics/scalability-and-reliability]]
