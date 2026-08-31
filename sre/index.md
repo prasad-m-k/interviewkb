@@ -8,7 +8,7 @@ tags:
 ---
 
 # SRE Index
-Last updated: 2026-08-18
+Last updated: 2026-08-31
 
 ## Overview
 - [[sre/overview]] — Coverage map and usage guide
@@ -30,9 +30,10 @@ Last updated: 2026-08-18
 - [[sre/concepts/rca-basics]] — Root cause vs. contributing factor vs. trigger, 5 Whys, Fishbone/Ishikawa, corrective vs. preventive action
 - [[sre/concepts/networking-fundamentals]] — TCP handshake, TLS 1.2/1.3, ALPN/HTTP-2 preface/QUIC handshake, encryption by layer, forward/reverse proxies, Zscaler/SASE zero trust
 - [[sre/concepts/load-balancers]] — L4 vs L7 LB, NLB vs ALB, LB algorithms (round-robin, consistent hashing, least-conn), DB load balancing, K8s Service types + Ingress + kube-proxy internals
+- [[sre/concepts/cgroups-and-containers]] — cgroups v1 vs v2, CPU throttling vs. utilization, scoped OOM kills, blkio/io isolation; Borg/Kubernetes resource-limit internals
 
 ## Patterns
-- [[sre/patterns/troubleshooting-framework]] — USE+RED model; 6 scenario playbooks (slow, full disk, 100% CPU, unreachable, OOM, EMFILE)
+- [[sre/patterns/troubleshooting-framework]] — USE+RED model (with intro on why both lenses are needed); 6 scenario playbooks (slow, full disk, 100% CPU, unreachable, OOM, EMFILE)
 
 ## Flashcards
 - [[sre/flashcards/slo-sli-sla-scenarios]] — 10 scenario-based questions: error budget math, incident response, setting SLIs for batch vs API, alert fatigue, introducing SLOs to a resistant team
@@ -49,6 +50,9 @@ Last updated: 2026-08-18
 
 ## Scenarios
 - [[sre/scenarios/high-cpu-troubleshooting]] — Linux internals; top, vmstat, strace; Apple, Google
+- [[sre/scenarios/cgroup-noisy-neighbor]] — L6; container CPU throttling/scoped OOM/blkio contention when host metrics look healthy; Google
+- [[sre/scenarios/distributed-cascading-failure]] — L6; fleet-wide latency spike; retry storms, missing circuit breaker/backpressure across a service graph; Google
+- [[sre/scenarios/strace-perf-trace-diagnosis]] — L6; reading raw strace/perf output cold — busy-poll loops, failed-syscall patterns, perf symbol overhead; Google
 
 ## Companies
 - [[sre/companies/apple]] — Heavy on Linux internals, networking, clean automation; privacy emphasis; Darwin/launchctl tooling

@@ -3,6 +3,15 @@
 Append-only. Each entry: `## [YYYY-MM-DD] <type> | <title>`
 Types: `ingest`, `query`, `lint`, `update`
 
+## [2026-08-31] update | L6 Google SRE system-internals troubleshooting scenarios
+
+- User noted the troubleshooting-framework.md USE+RED section jumped straight into the models with no framing — added an intro paragraph explaining why both lenses are needed (resource exhaustion vs. service-contract failure aren't interchangeable signals).
+- Identified gap: sre/companies/google.md referenced cgroups v2, blkio/ionice, and "given strace output, diagnose" as frequently-tested topics, but none had a concept or scenario page — only single-host tools existed (high-cpu-troubleshooting).
+- Created concept: cgroups-and-containers (cgroups v1 vs v2, CPU throttling vs. utilization, scoped per-container OOM, blkio/io isolation)
+- Created scenarios (×3), all flagged L6 (senior — systems-level reasoning, not single-host commands): cgroup-noisy-neighbor (container throttled/OOM'd while host looks idle), distributed-cascading-failure (fleet-wide latency spike, retry-storm/backpressure reasoning across a service graph), strace-perf-trace-diagnosis (reading raw trace/perf output cold, three common shapes with narration structure)
+- Updated: google.md (linked new pages into Frequently Tested Topics and Frequently Seen Problems table), index.md (registered all 4 new pages, rev date)
+- Notes: Scoped to genuine gaps only — networking-troubleshooting.md and disk-and-io.md already covered single-host equivalents well, so left untouched.
+
 Grep tip: `grep "^## \[" sre/log.md | tail -10`
 
 ---

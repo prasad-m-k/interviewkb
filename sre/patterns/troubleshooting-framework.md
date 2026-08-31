@@ -5,6 +5,8 @@
 
 ## The framework: USE + RED
 
+Ad-hoc troubleshooting — poking at whatever metric looks suspicious first — is what interviewers are specifically screening against. A framework forces you to check a fixed, complete set of places before forming a hypothesis, so you don't miss the actual cause because you got anchored on the first weird graph you saw. USE and RED are the two lenses that cover it between them: USE asks "is a *resource* exhausted?", RED asks "is the *service* failing to meet its contract?" A resource can be fine while a service still fails (a downstream dependency timing out), and a resource can be pegged while the service still looks healthy (headroom absorbing it) — so neither lens alone is sufficient, which is why interviewers want both named, not just one.
+
 Two complementary models. Use both in interviews — it shows you think about resources *and* user experience.
 
 **USE** (for resources — every physical/virtual resource):

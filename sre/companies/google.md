@@ -1,6 +1,6 @@
 # Google SRE Interview Prep
 
-**Related:** [[dsa/companies/google]], [[sre/patterns/troubleshooting-framework]], [[sre/concepts/slo-sli-sla]]
+**Related:** [[dsa/companies/google]], [[sre/patterns/troubleshooting-framework]], [[sre/concepts/slo-sli-sla]], [[sre/concepts/cgroups-and-containers]], [[sre/scenarios/distributed-cascading-failure]], [[sre/scenarios/strace-perf-trace-diagnosis]], [[sre/scenarios/cgroup-noisy-neighbor]]
 
 ## Process
 
@@ -50,8 +50,9 @@ Google wrote the book on SRE (literally). Every answer should reflect SRE-book p
 ### Linux & Systems
 - **Deep troubleshooting:** [[sre/scenarios/high-cpu-troubleshooting]] — Google interviewers often give you `strace` or `perf` output and ask you to diagnose.
 - **Networking:** [[sre/concepts/networking-fundamentals]] — Know TCP flow control, BBR congestion control (Google's algorithm), and QUIC/HTTP3.
-- **Memory:** [[sre/concepts/memory-management]] — OOM Killer, transparent huge pages (THP), `cgroups` v2 memory limits.
-- **I/O:** [[sre/concepts/disk-and-io]] — `blkio` cgroup, `ionice`, I/O schedulers (CFQ vs. deadline vs. noop).
+- **Memory:** [[sre/concepts/memory-management]] — OOM Killer, transparent huge pages (THP), `cgroups` v2 memory limits (per-container scoped OOM: [[sre/concepts/cgroups-and-containers]]).
+- **I/O:** [[sre/concepts/disk-and-io]] — `blkio` cgroup, `ionice`, I/O schedulers (CFQ vs. deadline vs. noop); multi-tenant contention walkthrough: [[sre/scenarios/cgroup-noisy-neighbor]].
+- **Distributed failure modes (L6):** [[sre/scenarios/distributed-cascading-failure]] — retry storms, thundering herd, missing backpressure across a service graph. Not single-host debugging; this is the systems-design/troubleshooting overlap Google tests at senior levels.
 
 ### Coding (Python or Go preferred)
 - **Graph traversal:** BFS/DFS for dependency resolution (Borg task graph, build systems).
@@ -93,7 +94,9 @@ A PRR is Google's gate before a service takes production traffic. Ask:
 | Design a globally consistent rate limiter | System Design | Distributed consensus, Redis/Lua, Spanner |
 | Design Google Pub/Sub | System Design | Fan-out, at-least-once delivery, dead letter queues |
 | Find top K errors in a 1TB log | Coding | Streaming, heap, external sort |
-| Given `strace` output, diagnose slow app | Troubleshooting | Syscall literacy, I/O vs CPU vs network |
+| Given `strace` output, diagnose slow app | Troubleshooting | Syscall literacy, I/O vs CPU vs network — [[sre/scenarios/strace-perf-trace-diagnosis]] |
+| Latency spike propagates across 5 services at once | Troubleshooting | Retry amplification, missing circuit breaker — [[sre/scenarios/distributed-cascading-failure]] |
+| Container throttled/OOM-killed while host looks idle | Troubleshooting | cgroup limits vs. host metrics — [[sre/scenarios/cgroup-noisy-neighbor]] |
 | Design a monitoring system for 1M services | System Design | Time-series DB, pull vs push metrics, Monarch |
 | Parse and aggregate distributed logs | Coding | [[sre/problems/log-parsing-script]] |
 | Calculate error budget from SLI data | SRE Practices | Math + policy judgment |
