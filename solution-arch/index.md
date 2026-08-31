@@ -1,5 +1,5 @@
 # Solution Architecture — Knowledge Base Index
-Last updated: 2026-08-19 (rev. 6)
+Last updated: 2026-08-31 (rev. 7)
 
 ## Overview
 - [[solution-arch/overview]] — Scope, quality attributes, architect's decision framework
@@ -37,6 +37,7 @@ Last updated: 2026-08-19 (rev. 6)
 - [[solution-arch/concepts/rate-limiting]] — Token bucket, leaky bucket, sliding window algorithms
 - [[solution-arch/concepts/distributed-consensus]] — Paxos, Raft, leader election, split-brain
 - [[solution-arch/concepts/vector-databases]] — HNSW/IVF ANN indexes, pgvector vs dedicated vector DB, re-embedding
+- [[solution-arch/concepts/federated-query-engines]] — F1 Query-style distributed SQL: table interleaving, CBO pushdown, hedged requests, DAG execution over relational + lake + vector sources
 - [[solution-arch/concepts/prompt-engineering-and-context-design]] — Context window budget, few-shot/CoT/structured output, cache-friendly ordering
 - [[solution-arch/concepts/function-calling-and-tool-use]] — Tool schema design, validation, idempotent side-effecting tools
 - [[solution-arch/concepts/ai-guardrails-and-safety]] — Input/output guardrails, prompt injection defense-in-depth
@@ -83,6 +84,7 @@ Last updated: 2026-08-19 (rev. 6)
 - [[solution-arch/scenarios/design-enterprise-rag-system]] — Access-control-aware enterprise RAG assistant, full walkthrough
 - [[solution-arch/scenarios/design-agentic-customer-support-system]] — Multi-agent support system with refund guardrails and HITL
 - [[solution-arch/scenarios/ai-solution-architect-interview-questions]] — 28 Q&A: Agentic AI, OpenAI platform, RAG, MCP, governance, cost
+- [[solution-arch/scenarios/ai-data-platform-system-design]] — AI Foundations track: RAG metadata store, ML feature store, F1 Query-style federated engine, zero-downtime embedding-schema migration, LLM workload isolation
 
 ## Companies
 - [[solution-arch/companies/microsoft-coreai-responsible-ai]] — Principal SWE, Responsible AI (CoreAI): role snapshot, interview loop, practice questions, culture signals #ResponsibleAI

@@ -1,5 +1,13 @@
 # Solution Architecture Knowledge Base — Log
 
+## [2026-08-31] ingest | AI Foundations / F1 Query-style system design scenarios
+
+- User pasted a 5-scenario prompt set for "AI Foundations" system design interview tracks: distributed data platforms intersecting with AI (F1 Query-style federated query engines, vector-relational hybrids).
+- Created concept: federated-query-engines (F1 Query architecture — table interleaving, distributed execution DAG, cost-based optimizer pushdown decisions, hedged requests/tail-latency handling for hybrid relational+lake+vector queries)
+- Created scenario: ai-data-platform-system-design — 5 scenarios: multimodal RAG metadata store (ACL/vector consistency), high-throughput feature store on distributed SQL (read/write skew, hotspotting), federated query engine over heterogeneous AI sources, zero-downtime embedding-dimension schema migration, LLM inference workload isolation/resource quotas
+- Updated: index.md (registered both new pages, rev 7)
+- Notes: Cross-linked to existing concepts rather than re-deriving them (database-sharding, distributed-caching, rate-limiting, idempotency, distributed-consensus, bulkhead) — this track is specifically about combining those primitives under AI/ML workload shapes, not new primitives.
+
 ## [2026-08-19] ingest | SQL fundamentals reference (joins, GROUP BY/HAVING, N+1, composite keys)
 
 - User asked what the N+1 problem is in SQL specifically (distinct from the existing API-composition N+1 coverage), and for one dedicated SQL basics page: joins (with ASCII pictures), duplicates, GROUP BY with WHERE, counting, composite relations, and a full basic-SQL interview question bank.
