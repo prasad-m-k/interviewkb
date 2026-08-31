@@ -11,25 +11,25 @@ ASCII reference diagrams for the AI Solution Architect topics — companion to [
        │
        ▼
  ┌──────────────┐
- │  Perceive     │  conversation history + retrieved docs + tool
- │  (context)    │  results so far
+ │  Perceive    │  conversation history + retrieved docs + tool
+ │  (context)   │  results so far
  └──────┬───────┘
         ▼
  ┌──────────────┐
- │   Reason      │  LLM decides: tool call, or final answer
+ │   Reason     │  LLM decides: tool call, or final answer
  └──────┬───────┘
         │
    ┌────▼─────┐        NO
-   │Tool call? ├──────────────▶ Return final answer
+   │Tool call?├──────────────▶ Return final answer
    └────┬─────┘
        YES
         ▼
  ┌──────────────┐
- │     Act       │  execute tool (validated input)
+ │     Act      │  execute tool (validated input)
  └──────┬───────┘
         ▼
  ┌──────────────┐
- │   Observe     │  append result to context
+ │   Observe    │  append result to context
  └──────┬───────┘
         │
         └──────────► back to Reason (bounded by max_iterations)
@@ -69,17 +69,17 @@ Embed ──▶ Vector store ◀── ANN search (top-K, filtered by ACL)
 
 ```
                     ┌─────────────────┐
-                    │   Supervisor     │
+                    │   Supervisor    │
                     └────────┬────────┘
                              │
           ┌──────────────────┼──────────────────┐
           ▼                  ▼                  ▼
-   ┌─────────────┐   ┌─────────────┐    ┌─────────────┐
-   │ Specialist   │   │ Specialist   │    │ Reviewer     │
-   │ Agent A      │   │ Agent B      │    │ Agent (no    │
-   │ (own tools,  │   │ (own tools,  │    │ write tools) │
-   │  own context)│   │  own context)│    │              │
-   └─────────────┘   └─────────────┘    └─────────────┘
+   ┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+   │ Specialist    │   │ Specialist    │   │ Reviewer      │
+   │ Agent A       │   │ Agent B       │   │ Agent (no     │
+   │ (own tools,   │   │ (own tools,   │   │ write tools)  │
+   │  own context) │   │  own context) │   │               │
+   └───────────────┘   └───────────────┘   └───────────────┘
 ```
 
 ---
@@ -90,16 +90,16 @@ Embed ──▶ Vector store ◀── ANN search (top-K, filtered by ACL)
   App / Agent teams
          │
          ▼
-┌─────────────────────────────────┐
+┌──────────────────────────────────┐
 │  AuthN/Z                         │
 │  Model routing (cost/capability) │
-│  Guardrails (in/out)               │
-│  Rate limiting                      │
-│  Response/semantic caching           │
-│  Circuit breaker + fallback            │
-│  Cost metering                          │
-│  Tracing                                 │
-└─────────────────────────────────┘
+│  Guardrails (in/out)             │
+│  Rate limiting                   │
+│  Response/semantic caching       │
+│  Circuit breaker + fallback      │
+│  Cost metering                   │
+│  Tracing                         │
+└──────────────────────────────────┘
          │
          ▼
   OpenAI / Azure OpenAI / Anthropic / self-hosted
