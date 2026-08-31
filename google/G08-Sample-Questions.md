@@ -27,4 +27,4 @@ Source: a general behavioral question bank ("Prep Library" — Behavioral catego
 
 ---
 
-*Tags: #Googliness #sample-questions #interview-prep #star*
+*Tags: #google #Googliness #sample-questions #interview-prep #star*

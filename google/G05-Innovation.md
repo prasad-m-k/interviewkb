@@ -84,4 +84,4 @@
 
 ---
 
-*Tags: #Googliness #innovation #think-big #frugality #runbook-as-code #nonprofit-ai #cost-optimization*
+*Tags: #google #Googliness #innovation #think-big #frugality #runbook-as-code #nonprofit-ai #cost-optimization*

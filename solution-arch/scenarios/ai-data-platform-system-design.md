@@ -68,3 +68,5 @@ Full mechanics: [[solution-arch/concepts/federated-query-engines]].
 
 ## Sources
 - Prompted scenario set on AI Foundations / F1 Query-style system design tracks
+
+*Tags: #google #ai-foundations #f1-query #system-design #vector-database*

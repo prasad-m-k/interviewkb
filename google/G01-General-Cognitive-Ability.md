@@ -36,4 +36,4 @@
 
 ---
 
-*Tags: #Googliness #general-cognitive-ability #problem-solving #rfp-agent #judgment*
+*Tags: #google #Googliness #general-cognitive-ability #problem-solving #rfp-agent #judgment*

@@ -35,4 +35,4 @@
 
 ---
 
-*Tags: #Googliness #collaboration #trust #research-integrity #attribution*
+*Tags: #google #Googliness #collaboration #trust #research-integrity #attribution*

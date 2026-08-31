@@ -29,3 +29,5 @@ A single query — "return the top 5 most similar chunks to this embedding, filt
 
 ## Sources
 - [[solution-arch/scenarios/ai-data-platform-system-design]]
+
+*Tags: #google #f1-query #distributed-sql #system-design*

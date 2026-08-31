@@ -83,4 +83,4 @@
 
 ---
 
-*Tags: #Googliness #leadership #ownership #mentorship #execution #zero-drift #eb1a*
+*Tags: #google #Googliness #leadership #ownership #mentorship #execution #zero-drift #eb1a*

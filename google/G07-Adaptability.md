@@ -35,4 +35,4 @@
 
 ---
 
-*Tags: #Googliness #adaptability #bias-for-action #ambiguity #production-incident*
+*Tags: #google #Googliness #adaptability #bias-for-action #ambiguity #production-incident*

@@ -60,4 +60,4 @@ Why the remap isn't 1:1: Google's rubric collapses Amazon's twelve principles in
 
 ---
 
-*Tags: #Googliness #google-interview #leadership #star #behavioral*
+*Tags: #google #Googliness #google-interview #leadership #star #behavioral*
