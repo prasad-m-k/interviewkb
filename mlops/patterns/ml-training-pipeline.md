@@ -10,16 +10,16 @@ How to go from raw data to a deployed model artifact in a reliable, repeatable, 
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                   Training Pipeline                  │
-│                                                      │
-│  1. Data ingestion    → raw dataset artifact         │
-│  2. Data validation   → schema check, stats, alerts  │
-│  3. Feature engineering → feature table artifact     │
-│  4. Train/val split   → split dataset artifacts      │
-│  5. Model training    → model checkpoint artifact    │
-│  6. Model evaluation  → metrics artifact             │
-│  7. Model push        → register to model registry   │
-│         if metrics > baseline threshold              │
+│                   Training Pipeline                 │
+│                                                     │
+│  1. Data ingestion    → raw dataset artifact        │
+│  2. Data validation   → schema check, stats, alerts │
+│  3. Feature engineering → feature table artifact    │
+│  4. Train/val split   → split dataset artifacts     │
+│  5. Model training    → model checkpoint artifact   │
+│  6. Model evaluation  → metrics artifact            │
+│  7. Model push        → register to model registry  │
+│         if metrics > baseline threshold             │
 └─────────────────────────────────────────────────────┘
 ```
 
