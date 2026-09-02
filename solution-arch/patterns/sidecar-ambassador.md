@@ -26,7 +26,7 @@ A helper container deployed alongside the main application container in the same
 │  │  of TLS,         │  │  - Metrics           │ │
 │  │  retries, etc.   │  │  - Distributed trace │ │
 │  └──────────────────┘  └──────────────────────┘ │
-│        localhost:8080          :15001 (inbound)  │
+│        localhost:8080          :15001 (inbound) │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -76,12 +76,12 @@ Translates the output of the main app into a standardised format expected by the
 
 ```
 ┌──────────────────────────────────────────────────┐
-│   App emits logs in custom format               │
-│   ┌────────────┐   ┌──────────────────────────┐ │
+│   App emits logs in custom format                │
+│   ┌────────────┐   ┌──────────────────────────┐  │
 │   │ Legacy App │──▶│  Adapter Sidecar         │──▶ Centralised log platform
 │   │ log format │   │  (translate to JSON/     │    (expects JSON)
-│   │ is custom  │   │   structured format)     │ │
-│   └────────────┘   └──────────────────────────┘ │
+│   │ is custom  │   │   structured format)     │  │
+│   └────────────┘   └──────────────────────────┘  │
 └──────────────────────────────────────────────────┘
 ```
 

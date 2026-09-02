@@ -2,6 +2,8 @@
 
 **Concepts:** [[solution-arch/topics/nfr-quality-attributes]], [[solution-arch/patterns/circuit-breaker]], [[solution-arch/patterns/bulkhead]], [[solution-arch/patterns/blue-green-canary]]
 
+**Related:** [[solution-arch/scenarios/design-multiregion-dr-failover-ml-serving]] — the ML-serving-specific application of this general HA/DR problem (model artifact replication, warm-vs-cold accelerator capacity in the standby region)
+
 ---
 
 ## The Problem

@@ -5,7 +5,7 @@ uid: dd78c621-10d5-4343-8c92-fb89ddf1e4ae
 # Outbox Pattern (Transactional Outbox)
 
 **Topic:** [[solution-arch/topics/integration-patterns]]
-**Related concepts:** [[solution-arch/concepts/message-queues]], [[solution-arch/concepts/idempotency]], [[solution-arch/patterns/saga]]
+**Related concepts:** [[solution-arch/concepts/message-queues]], [[solution-arch/concepts/idempotency]], [[solution-arch/patterns/saga]], [[solution-arch/patterns/inbox]]
 
 ## What it solves
 The dual-write problem: after updating a database, you want to publish an event to a message broker. But the DB write and the message publish are **two separate operations** — if the app crashes between them, one succeeds and the other doesn't.
@@ -101,6 +101,9 @@ CREATE INDEX idx_outbox_pending ON outbox(status, created_at)
 
 ## Complexity
 Moderate. Requires: outbox table, relay process, deduplication on consumers (relay may publish twice if it crashes after publish but before marking published).
+
+## Companion Pattern
+Outbox solves reliable *publishing*. It doesn't stop a consumer from processing the same event twice if the broker redelivers it — see [[solution-arch/patterns/inbox]] for the consumer-side counterpart.
 
 ## Trade-offs
 

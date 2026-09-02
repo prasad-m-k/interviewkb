@@ -18,17 +18,17 @@ WITHOUT Bulkhead:
   │          Shared Thread Pool (50)       │
   │                                        │
   │  Slow Service A eats all 50 threads ──▶│ Service B starved
-  │  → Service B gets no threads          │ → entire app hangs
+  │  → Service B gets no threads           │ → entire app hangs
   └────────────────────────────────────────┘
 
 WITH Bulkhead:
-  ┌──────────────────┐  ┌──────────────────┐
-  │ Pool A (20 threads)│  │ Pool B (30 threads)│
-  │ [Svc A calls]    │  │ [Svc B calls]    │
-  │                  │  │                  │
-  │ Svc A slow:      │  │ Pool B unaffected│
-  │ only Pool A full │  │ Svc B still works│
-  └──────────────────┘  └──────────────────┘
+  ┌────────────────--──┐  ┌─────────────────----─┐
+  │ Pool A (20 threads)│  │ Pool B (30 threads). │
+  │ [Svc A calls]      │  │ [Svc B calls]        │
+  │                    │  │                      │
+  │ Svc A slow:        │  │ Pool B unaffected.   │
+  │ only Pool A full   │  │ Svc B still works.   │
+  └─────────────────--─┘  └──────────────────----┘
 ```
 
 ## Types of Bulkheads

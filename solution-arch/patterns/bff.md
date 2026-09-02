@@ -23,11 +23,11 @@ WITH BFF:
   Mobile ──▶ Mobile BFF ──▶ Aggregates User + Order + Product
                (lean payload, mobile-optimised)
                               │ calls
-  Web App──▶ Web BFF    ──▶  ├──▶ User Service
-               (rich data,   ├──▶ Order Service
+  Web App──▶ Web BFF    ──▶   ├──▶ User Service
+               (rich data,    ├──▶ Order Service
                 web-optimised)├──▶ Product Service
                               │
-  Partner──▶ Partner BFF──▶  └──▶ (public subset, versioned, rate-limited)
+  Partner──▶ Partner BFF──▶   └──▶ (public subset, versioned, rate-limited)
                (stable API,
                 versioned)
 ```

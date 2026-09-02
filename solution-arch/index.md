@@ -1,5 +1,5 @@
 # Solution Architecture — Knowledge Base Index
-Last updated: 2026-08-31 (rev. 7)
+Last updated: 2026-09-01 (rev. 12)
 
 ## Overview
 - [[solution-arch/overview]] — Scope, quality attributes, architect's decision framework
@@ -36,6 +36,10 @@ Last updated: 2026-08-31 (rev. 7)
 - [[solution-arch/concepts/idempotency]] — Designing idempotent APIs and operations
 - [[solution-arch/concepts/rate-limiting]] — Token bucket, leaky bucket, sliding window algorithms
 - [[solution-arch/concepts/distributed-consensus]] — Paxos, Raft, leader election, split-brain
+- [[solution-arch/concepts/paxos]] — The two-phase protocol itself: Prepare/Promise, Accept/Accepted, why proposal numbers matter, Multi-Paxos
+- [[solution-arch/concepts/raft]] — Terms, RequestVote/AppendEntries RPCs, the log matching property, why an out-of-date node can't win an election
+- [[solution-arch/concepts/leader-election]] — Bully, Ring, and lease-based (etcd/ZooKeeper) election algorithms; fencing
+- [[solution-arch/concepts/google-spanner]] — TrueTime, commit-wait, external consistency, Paxos-per-shard, 2PC across shards #google
 - [[solution-arch/concepts/vector-databases]] — HNSW/IVF ANN indexes, pgvector vs dedicated vector DB, re-embedding
 - [[solution-arch/concepts/federated-query-engines]] — F1 Query-style distributed SQL: table interleaving, CBO pushdown, hedged requests, DAG execution over relational + lake + vector sources
 - [[solution-arch/concepts/prompt-engineering-and-context-design]] — Context window budget, few-shot/CoT/structured output, cache-friendly ordering
@@ -57,6 +61,7 @@ Last updated: 2026-08-31 (rev. 7)
 - [[solution-arch/patterns/bulkhead]] — Isolate failure to a resource pool
 - [[solution-arch/patterns/saga]] — Distributed transaction via choreography or orchestration
 - [[solution-arch/patterns/outbox]] — Reliable event publishing without 2PC
+- [[solution-arch/patterns/inbox]] — Idempotent consumer; dedup redelivered messages; pairs with outbox for effectively-exactly-once
 - [[solution-arch/patterns/strangler-fig]] — Incremental monolith migration
 - [[solution-arch/patterns/sidecar-ambassador]] — Proxy patterns for cross-cutting concerns
 - [[solution-arch/patterns/event-driven-architecture]] — Event sourcing, streaming, reactive systems
@@ -85,6 +90,31 @@ Last updated: 2026-08-31 (rev. 7)
 - [[solution-arch/scenarios/design-agentic-customer-support-system]] — Multi-agent support system with refund guardrails and HITL
 - [[solution-arch/scenarios/ai-solution-architect-interview-questions]] — 28 Q&A: Agentic AI, OpenAI platform, RAG, MCP, governance, cost
 - [[solution-arch/scenarios/ai-data-platform-system-design]] — AI Foundations track: RAG metadata store, ML feature store, F1 Query-style federated engine, zero-downtime embedding-schema migration, LLM workload isolation
+- [[solution-arch/scenarios/design-youtube-recommendation-system]] — Recommendation serving infra: retrieval/ranking funnel, online/offline feature split, ANN indexing, graceful degradation #google
+- [[solution-arch/scenarios/design-fraud-detection-pipeline]] — Real-time fraud scoring for payments: rules + ML layering, velocity counters, fail-open/fail-closed, outbox-driven feedback loop #google
+
+### Google L6 SRE / NALSD — Semantic Understanding Platform track
+19 scenarios covering the 20 most probable NALSD questions for a Google L6 SU (Semantic Understanding — Lens/Photos/Vertex AI/Search/YouTube) SRE loop, each with explicit Functional/Non-Functional requirements. Items 9 and 15 from the source question sets are the same NALSD topic asked twice, merged into one canonical page.
+
+- [[solution-arch/scenarios/design-lens-image-understanding-service]] — Low-latency multi-region image/semantic feature extraction (Lens-style): latency budget, CPU/GPU/TPU serving tiers, embedding caching, region-failure fallback #google
+- [[solution-arch/scenarios/design-multitenant-ml-serving-platform]] — Multi-tenant ML inference platform (Lens/Photos/Search/Vertex AI/YouTube): tenant isolation, fair sharing, per-tenant SLOs, noisy-neighbor prevention #google
+- [[solution-arch/scenarios/design-semantic-signal-feature-platform]] — Signal/feature generation and serving for semantic understanding: ingest, versioned pipelines, high-QPS embedding reads, freshness/durability #google
+- [[solution-arch/scenarios/design-video-image-understanding-pipeline-reliability]] — Global video/image understanding pipeline under volume growth: batch+online paths, priority queues, backpressure, failure isolation #google
+- [[solution-arch/scenarios/design-continuous-model-deployment-rollout]] — Continuous model deployment/versioning/progressive rollout: shadow mode, quality-gated canary, drift detection, automated rollback #google
+- [[solution-arch/scenarios/design-ml-accelerator-capacity-autoscaling]] — Capacity/autoscaling/orchestration for mixed CPU+GPU/TPU fleet: predictive scaling, bin-packing, cost efficiency, saturation degradation #google
+- [[solution-arch/scenarios/design-ml-platform-observability]] — Observability/monitoring/alerting for a multi-stage ML platform: SLIs/SLOs, silent quality-regression detection, tracing, toil-reducing alerts #google
+- [[solution-arch/scenarios/design-multiregion-dr-failover-ml-serving]] — Multi-region DR/failover for a critical ML serving path: RTO/RPO, model/signal replication, traffic shifting, failover drills #google
+- [[solution-arch/scenarios/design-global-rate-limiting-load-shedding]] — Fair global admission-control/load-shedding for a shared platform: priority classes, region-failure capacity math, backpressure signaling (answers both the SUP-fairness and general high-QPS-hardening prompts) #google
+- [[solution-arch/scenarios/design-large-scale-data-labeling-pipeline]] — Petabyte-scale ingestion/labeling/training-data pipeline: quality control, privacy/compliance, isolation from production serving #google
+- [[solution-arch/scenarios/design-cross-region-petabyte-data-migration]] — Moving 100PB cross-region: bandwidth physics, parallel transfer, consistency during migration, verification, cost #google
+- [[solution-arch/scenarios/design-global-config-feature-flag-service]] — Globally distributed config/feature-flag service: strong consistency, blast-radius control, canarying, auto-rollback #google
+- [[solution-arch/scenarios/design-logs-metrics-telemetry-pipeline]] — High-scale logs+metrics/telemetry pipeline: buffering/backpressure, retention tiers, cardinality cost, pipeline self-observability #google
+- [[solution-arch/scenarios/design-global-fleet-software-rollout]] — Safe global fleet software/binary rollout: staged canary, health-gated promotion, capacity-aware batching, fast rollback #google
+- [[solution-arch/scenarios/design-youtube-video-pipeline-reliability]] — Global video upload/transcode/CDN delivery (YouTube-scale): progressive availability, hot vs. long-tail CDN placement, durability #google
+- [[solution-arch/scenarios/design-distributed-web-crawler-indexing]] — Large-scale distributed web crawler + incremental indexing: frontier management, politeness, freshness, consistent index snapshots #google
+- [[solution-arch/scenarios/design-distributed-file-storage-sync]] — Globally distributed file storage/sync (Drive-style): chunking, replication, conflict resolution, datacenter-loss recovery #google
+- [[solution-arch/scenarios/design-highfanout-pubsub-notification]] — High-fan-out pub/sub for millions of subscribers: decoupled fan-out, delivery guarantees, backpressure, multi-region degradation #google
+- [[solution-arch/scenarios/design-distributed-job-scheduler]] — Distributed job scheduler for a heterogeneous fleet: bin-packing, priority/preemption, retries/dead-lettering, overload control #google
 
 ## Companies
 - [[solution-arch/companies/microsoft-coreai-responsible-ai]] — Principal SWE, Responsible AI (CoreAI): role snapshot, interview loop, practice questions, culture signals #ResponsibleAI

@@ -5,7 +5,7 @@ uid: 798b81a9-f178-4dd4-946e-a19797d0b848
 # Idempotency
 
 **Topic:** [[solution-arch/topics/scalability-and-reliability]]
-**Related:** [[solution-arch/concepts/message-queues]], [[solution-arch/patterns/outbox]], [[solution-arch/concepts/acid-vs-base]]
+**Related:** [[solution-arch/concepts/message-queues]], [[solution-arch/patterns/outbox]], [[solution-arch/patterns/inbox]], [[solution-arch/concepts/acid-vs-base]]
 
 ## What it is
 An operation is **idempotent** if performing it multiple times produces the same result as performing it once. Critical in distributed systems where retries, at-least-once delivery, and network failures cause duplicate requests.
@@ -98,7 +98,7 @@ Consumer:
           → ack message
 ```
 
-Dedup table entries expire after message retention window (e.g., 7 days).
+Dedup table entries expire after message retention window (e.g., 7 days). See [[solution-arch/patterns/inbox]] for this pattern generalized with its own table schema and pairing with outbox.
 
 ## Common interview angles
 - "Why is idempotency important in distributed systems?" (Networks fail; retries happen; without idempotency, retries cause duplicates)

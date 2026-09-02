@@ -84,7 +84,7 @@ Traditional RDBMS ACID works on a single node. Distributed ACID is much harder:
 - **Two-Phase Commit (2PC):** coordinator asks all nodes to prepare, then commits. Blocking if coordinator crashes.
 - **Three-Phase Commit (3PC):** adds a pre-commit phase; non-blocking but more round trips.
 - **Saga Pattern:** break transaction into compensatable steps (see [[solution-arch/patterns/saga]])
-- **Google Spanner:** achieves distributed ACID using TrueTime and Paxos — possible but expensive.
+- **Google Spanner:** achieves distributed ACID using TrueTime and Paxos — possible but expensive. Full mechanism: [[solution-arch/concepts/google-spanner]].
 
 ---
 

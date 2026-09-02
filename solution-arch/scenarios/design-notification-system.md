@@ -3,6 +3,8 @@
 **Difficulty:** Medium-Hard
 **Concepts:** [[solution-arch/concepts/message-queues]], [[solution-arch/patterns/event-driven-architecture]], [[solution-arch/concepts/rate-limiting]]
 
+**Related:** [[solution-arch/scenarios/design-highfanout-pubsub-notification]] — the broadcast/pub-sub infrastructure for millions of subscribers; this page is a per-user multi-channel dispatch layer that could publish on top of it, a much smaller fan-out
+
 ---
 
 ## Step 1: Requirements
@@ -53,7 +55,7 @@
            ▼               ▼                  ▼
    ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
    │ Email Worker │ │  SMS Worker  │ │  Push Worker │
-   │ (SES/SendGrid│ │(Twilio/SNS) │ │ (FCM/APNs)  │
+   │ (SES/SendGrid│ │(Twilio/SNS)  │ │ (FCM/APNs)   │
    └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
           │                │                │
           └────────────────┼────────────────┘

@@ -12,7 +12,7 @@ Maximum flexibility in a system that requires strong audit trails, multiple quer
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        Write Side                                   │
 │                                                                     │
-│  Client ──Command──▶ Command Handler ──validates──▶ Domain Object  │
+│  Client ──Command──▶ Command Handler ──validates──▶ Domain Object   │
 │                                │                         │          │
 │                         Emit Event                       │          │
 │                                │                         │          │
@@ -32,7 +32,7 @@ Maximum flexibility in a system that requires strong audit trails, multiple quer
          │ Projection 1 │ │ Projection 2 │    │  Projection 3    │
          │ (Order view) │ │(Dashboard)   │    │ (Search index)   │
          └──────┬───────┘ └──────┬───────┘    └───────┬──────────┘
-                │                │                     │
+                │                │                    │
          ┌──────▼──┐      ┌──────▼──┐          ┌──────▼──────┐
          │ Read DB │      │  Redis  │          │Elasticsearch│
          │(Postgres│      │(counters│          │(search)     │
@@ -42,7 +42,7 @@ Maximum flexibility in a system that requires strong audit trails, multiple quer
 ┌─────────────────────────────▼───────────────────────────────────────┐
 │                        Read Side                                    │
 │                                                                     │
-│  Client ──Query──▶ Query Handler ──▶ Read Store (any of the above) │
+│  Client ──Query──▶ Query Handler ──▶ Read Store (any of the above)  │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 

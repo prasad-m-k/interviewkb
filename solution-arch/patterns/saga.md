@@ -5,7 +5,7 @@ uid: 958d5445-4d80-47f5-9a0c-2150cd1b034f
 # Saga Pattern
 
 **Topic:** [[solution-arch/topics/data-architecture]], [[solution-arch/topics/integration-patterns]]
-**Related concepts:** [[solution-arch/concepts/acid-vs-base]], [[solution-arch/concepts/message-queues]], [[solution-arch/patterns/outbox]]
+**Related concepts:** [[solution-arch/concepts/acid-vs-base]], [[solution-arch/concepts/message-queues]], [[solution-arch/patterns/outbox]], [[solution-arch/patterns/inbox]]
 
 ## What it solves
 In microservices, each service owns its own database. Traditional ACID transactions don't span service boundaries. The Saga pattern manages **distributed transactions** as a sequence of local transactions, each with a **compensating transaction** to undo the effect if a later step fails.

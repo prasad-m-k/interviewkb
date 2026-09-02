@@ -1,7 +1,7 @@
 # Distributed Consensus
 
 **Topic:** [[solution-arch/topics/scalability-and-reliability]]
-**Related:** [[solution-arch/concepts/cap-theorem]], [[solution-arch/concepts/database-sharding]]
+**Related:** [[solution-arch/concepts/cap-theorem]], [[solution-arch/concepts/database-sharding]], [[solution-arch/concepts/paxos]], [[solution-arch/concepts/raft]], [[solution-arch/concepts/leader-election]], [[solution-arch/concepts/google-spanner]]
 
 ## What it is
 Consensus is the problem of getting a group of nodes to agree on a single value — essential for leader election, distributed locks, configuration management, and replicated state machines.
@@ -19,7 +19,7 @@ Without a protocol, nodes may never agree (or agree on different values).
 
 ## Raft (Understandable Consensus)
 
-Raft divides consensus into three sub-problems: leader election, log replication, safety.
+Raft divides consensus into three sub-problems: leader election, log replication, safety. This section is the survey-level treatment; for the actual RPCs (RequestVote, AppendEntries), term numbers, the log matching property, and the safety proof intuition, see the dedicated [[solution-arch/concepts/raft]] page.
 
 ```
         ┌─────────────┐
@@ -75,6 +75,8 @@ W=1, R=1: fast both, eventual consistency only
 
 ## Leader Election
 
+This is Raft's own built-in mechanism. For the general problem — Bully/Ring algorithms, and the lease-based election almost every production system actually uses (etcd, ZooKeeper) — see the dedicated [[solution-arch/concepts/leader-election]] page.
+
 ```
 Before election:
   Node A: leader (healthy)
@@ -102,6 +104,8 @@ If A recovers:
 | Phase | Prepare + Accept | Leader election + Log replication |
 | Used in | Google Spanner, Chubby | etcd, CockroachDB, TiKV |
 | Multi-Paxos | Log variant (complex) | Natural multi-entry log |
+
+For the actual two-phase Paxos protocol (Prepare/Promise, Accept/Accepted, why proposal numbers matter), see [[solution-arch/concepts/paxos]]. For how Google Spanner layers Paxos with TrueTime and 2PC into a globally consistent database, see [[solution-arch/concepts/google-spanner]].
 
 ## Split-Brain
 

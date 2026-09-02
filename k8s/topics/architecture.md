@@ -43,6 +43,34 @@ Bridges Kubernetes to cloud provider APIs. Handles:
 - LoadBalancer Service provisioning
 - Volume provisioning and attachment
 
+## High Availability — How a Multi-Master Control Plane Elects Its Leaders
+
+A multi-master (multiple control-plane nodes) cluster has **three separate election/replication mechanisms** running at once — a common interview trap is treating them as one:
+
+### 1. etcd's own leader — Raft
+The etcd cluster backing the control plane (typically 3 or 5 members) runs its own Raft consensus internally to elect an etcd leader, which handles all writes and replicates them to followers. Standard Raft: randomized election timeouts, terms, majority vote. See [[solution-arch/concepts/raft]] for the full protocol (RequestVote/AppendEntries RPCs, the log matching property, why an out-of-date node can't win).
+
+### 2. kube-scheduler and kube-controller-manager — lease-based election on etcd
+These must have exactly one *active* instance even when multiple replicas run for HA (each master typically runs its own copy). They do **not** use Raft directly — they use the `client-go` `leaderelection` package:
+```
+Each replica started with --leader-elect=true
+All replicas race to acquire a Lease object (coordination.k8s.io/v1)
+  in kube-system, named e.g. "kube-scheduler" / "kube-controller-manager"
+
+Lease fields: holderIdentity, leaseDurationSeconds (default 15s), renewTime
+
+Winner renews before expiry (renewDeadline default 10s, retryPeriod 2s)
+On crash/partition/GC pause → renewal missed → lease goes stale →
+  standbys race again via a conditional write (etcd resourceVersion CAS
+  guarantees only one candidate's update succeeds)
+```
+This is the general lease-based leader-election pattern — see [[solution-arch/concepts/leader-election]] for the ZooKeeper-equivalent (ephemeral sequential znodes) and for fencing.
+
+### 3. kube-apiserver — no election at all
+All API server replicas run **active-active**: stateless request handlers fronted by a load balancer, all reading/writing the same etcd cluster. There's no leader among API servers because there's nothing stateful to arbitrate.
+
+**Interview-ready summary:** etcd elects its own leader via Raft; scheduler/controller-manager elect a leader via an etcd-backed Lease (compare-and-swap, not Raft directly); API servers don't elect anything.
+
 ## Worker Node Components
 
 ### kubelet

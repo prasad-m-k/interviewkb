@@ -132,3 +132,5 @@ Architecture: wide & deep (wide = memorization from cross features; deep = gener
 - [[ml/topics/ml-system-design]]
 - [[ml/concepts/embeddings]]
 - [[ML overview]]
+
+**Systems/infra view:** [[solution-arch/scenarios/design-youtube-recommendation-system]] — serving architecture, latency budget, online/offline split, degradation strategy

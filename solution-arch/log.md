@@ -1,5 +1,57 @@
 # Solution Architecture Knowledge Base — Log
 
+## [2026-09-01] ingest | Raft deep-dive; Kubernetes multi-master leader election cross-linked
+
+- Follow-up to the prior Paxos/leader-election/Spanner batch: user asked a direct question about how a multi-master Kubernetes cluster elects its leader (answered inline: three separate mechanisms — etcd's own Raft election, kube-scheduler/kube-controller-manager's etcd-backed Lease election via client-go's leaderelection package, and kube-apiserver's active-active no-election design), then asked to add both the Kubernetes notes and a dedicated Raft page to the KB.
+- Created concept: raft — the actual RequestVote/AppendEntries RPCs, terms as Raft's logical clock, the log matching property, and the election-restriction safety argument, at the same depth as the existing paxos.md. distributed-consensus.md's existing Raft section stays as the survey-level treatment and now points to this page for the mechanics.
+- Updated: distributed-consensus.md (Related line + forward-link from its Raft section), leader-election.md (Related line + a new "Kubernetes multi-master control plane" example under When to use, cross-linking to k8s/topics/architecture.md). Updated index.md (rev. 12).
+- The Kubernetes-specific mechanics live in k8s/topics/architecture.md (new "High Availability — How a Multi-Master Control Plane Elects Its Leaders" section, logged separately in k8s/log.md) rather than being duplicated here — solution-arch/ owns the general consensus/election theory, k8s/ owns the concrete K8s instance, consistent with this vault's existing sre/-vs-solution-arch/ split.
+
+## [2026-09-01] ingest | Paxos, leader election, and Google Spanner concept pages
+
+- User asked for dedicated concepts on leader election and Paxos, plus Google Spanner — existing coverage was a survey-level treatment folded into distributed-consensus.md (Raft in depth, a brief Paxos-vs-Raft comparison table, Raft's own leader-election mechanism), with no dedicated deep-dive on any of the three and no Spanner page at all.
+- Created concept: paxos — the actual two-phase Basic Paxos protocol (Prepare/Promise, Accept/Accepted), the safety rule that forces a proposer to adopt an already-accepted value, a concrete failure-scenario walkthrough, and Multi-Paxos's stable-leader optimization.
+- Created concept: leader-election — the general problem independent of any one consensus protocol: Bully algorithm, Ring algorithm, and the lease-based approach (etcd TTL locks, ZooKeeper ephemeral sequential znodes) that production systems actually use, plus fencing tokens for stale-leader safety.
+- Created concept: google-spanner — Paxos-per-shard replication, TrueTime's bounded-uncertainty clock API, commit-wait as the mechanism that turns clock uncertainty into external consistency, and 2PC layered across Paxos groups for cross-shard transactions. Tagged #google.
+- Updated: distributed-consensus.md (Related line + forward-links from its existing Leader Election section and Paxos-vs-Raft table to the new dedicated pages, avoiding duplication), cap-theorem.md and acid-vs-base.md (both already mentioned Spanner in passing — linked forward to the new page instead of leaving it unexplained). Updated index.md (rev. 11).
+- Notes: kept distributed-consensus.md as the survey/comparison page (Raft depth + quorum math + split-brain, which the new pages don't re-derive) and made the three new pages the deep-dives it points to — same cross-reference-don't-duplicate approach used throughout this vault.
+
+## [2026-09-01] update | Restored boxed diagrams in inbox.md / design-fraud-detection-pipeline.md, computed for guaranteed alignment
+
+- First pass replaced the corrupted box-drawing diagrams with simplified indented-arrow versions (see prior entry below). User preferred the original boxed style as more intuitive and asked for it back.
+- Rebuilt all 3 diagrams (2 in patterns/inbox.md, 1 in scenarios/design-fraud-detection-pipeline.md) programmatically instead of hand-typing box-drawing characters: a small Python script (box-building + canvas-placement helpers, scratchpad-only, not committed to the vault) computes each box's border width from its content and stamps every box/connector onto a character grid by explicit column index, so border columns can't drift out of alignment the way hand-typed ones did.
+- Verified by direct length-check on the rendered output: every line within a given box's vertical span has identical character length (checked programmatically, not just eyeballed) before pasting into the files.
+- The fraud-detection pipeline diagram now shows real 2-way and 3-way box fan-outs (┬/┴ junctions) rather than the simplified arrow-list version.
+
+## [2026-09-01] update | Fixed corrupted ASCII diagrams (inbox.md, design-fraud-detection-pipeline.md)
+
+- Flagged by a disk-change notification: box-drawing diagrams in patterns/inbox.md (2 diagrams) and scenarios/design-fraud-detection-pipeline.md (1 diagram) had stray `---`/`-` fragments corrupting the box borders. patterns/outbox.md, also flagged at the time, turned out already clean on re-read — only these two needed fixing.
+- Replaced all 3 corrupted box-drawing diagrams with the simpler indented-arrow/label style used throughout the newly created Google L6 scenario batch, removing the alignment-bug risk entirely rather than re-verifying exact column counts.
+- Verified no stray dash fragments remain in either file (only legitimate markdown table separator rows match `---` now).
+
+## [2026-09-01] ingest | Google L6 SRE / NALSD scenarios — Semantic Understanding Platform track (19 pages)
+
+- User provided three batches of Google L6 Systems Engineer/SRE interview questions (10 for a Semantic Understanding Platform role covering Lens/Photos/Vertex AI/Search/YouTube, plus two 5-question general NALSD sets) and asked for a system-design page per item, tagged #google, each with explicit Functional/Non-Functional requirements — 20 items total, one pair (item 9's SUP fairness question and item 15's general admission-control question) being the same NALSD topic asked twice.
+- Parallelized the writing across 5 forked subagents (disjoint file sets, no shared-file edits) to keep the volume of intermediate content out of the main session, then ran a single integration pass: verified every `[[solution-arch/scenarios/...]]` cross-link across all 19 new pages resolves to a real file (20 unique targets, all present), and every `[[solution-arch/concepts|patterns|topics|sources/...]]` link resolves (30 unique targets, all present).
+- Created 19 scenario pages (items 9 and 15 merged into one): design-lens-image-understanding-service, design-multitenant-ml-serving-platform, design-semantic-signal-feature-platform, design-video-image-understanding-pipeline-reliability, design-continuous-model-deployment-rollout, design-ml-accelerator-capacity-autoscaling, design-ml-platform-observability, design-multiregion-dr-failover-ml-serving, design-global-rate-limiting-load-shedding (answers both the SUP-fairness and general high-QPS-hardening prompts), design-large-scale-data-labeling-pipeline, design-cross-region-petabyte-data-migration, design-global-config-feature-flag-service, design-logs-metrics-telemetry-pipeline, design-global-fleet-software-rollout, design-youtube-video-pipeline-reliability, design-distributed-web-crawler-indexing, design-distributed-file-storage-sync, design-highfanout-pubsub-notification, design-distributed-job-scheduler.
+- Updated: index.md (rev. 10, new "Google L6 SRE / NALSD" scenario subsection with all 19 entries). Backlinked design-notification-system.md, design-youtube-recommendation-system.md, and high-availability-platform.md to their new differentiated counterparts.
+- Notes: each new page carries an explicit "not verified insider Google infrastructure detail" disclaimer (this is JD-derived and public-NALSD-pattern reasoning, same honesty convention used for the earlier Netflix-JD-derived tiered-caching scenario). Deliberately cross-linked rather than duplicated the same canary-rollout mechanics across three artifact types (ML model / config / binary) and the same admission-control mechanics across the merged rate-limiting page — each page states explicitly what it does NOT re-derive and points to the sibling that owns it. Did not add flashcards for this batch (not requested); can add on request.
+
+## [2026-09-01] ingest | Google system design scenarios — YouTube recommendations, payments fraud detection
+
+- User requested two #google-tagged system design scenarios with explicit functional/non-functional requirements: "design YouTube's recommendation system" and "design a fraud detection pipeline for a payments platform."
+- Created scenario: design-youtube-recommendation-system — systems/infra view (retrieval/ranking latency budget, online feature store vs offline batch embeddings split, ANN index sharding, cold-start via unpersonalized fallback pools, per-stage graceful degradation). Deliberately scoped to NOT duplicate [[ml/scenarios/recommendation-system-design]]'s model architecture (two-tower, ranking model, evaluation metrics) — cross-linked both directions instead.
+- Created scenario: design-fraud-detection-pipeline — synchronous rules+ML scoring path inside the payment auth latency window, atomic Redis velocity counters (race-condition fix), the fail-open-vs-fail-closed degraded-service decision wrapped in circuit-breaker + bulkhead, outbox-driven async fan-out to case management/audit/retraining, chargeback-delayed feedback loop. Cross-linked to the newly created [[solution-arch/patterns/outbox]]/[[solution-arch/patterns/inbox]] pair as the reliability mechanism for the async fan-out.
+- Updated: index.md (rev. 9, 2 new scenario entries, both #google), ml/scenarios/recommendation-system-design.md (added cross-link to the new infra-view page).
+- Notes: Both tagged #google per user request, following the existing tag convention (`*Tags: #google ...*` footer line) used in federated-query-engines.md and ai-data-platform-system-design.md.
+
+## [2026-09-01] update | Inbox pattern (transactional inbox / idempotent consumer)
+
+- User asked whether an outbox pattern page existed (it did, already well-developed), then asked whether an inbox pattern page existed — it didn't. Created it as the consumer-side counterpart.
+- Created pattern: inbox — the idempotent-consumer pattern for at-least-once message delivery: inbox table with dedup key as PK, dedup check + business-effect write in one local transaction, retention/cleanup policy, and an explicit "outbox + inbox together = effectively-exactly-once" framing with a combined diagram.
+- Updated: patterns/outbox.md (added a "Companion Pattern" section pointing to inbox), concepts/idempotency.md (cross-linked its existing "Idempotent Consumer Pattern" section to the new dedicated page), patterns/saga.md (Related concepts). Updated index.md (rev. 8).
+- Notes: Deliberately scoped inbox as the mirror of outbox rather than duplicating idempotency.md's existing dedup-table walkthrough — that page keeps the general idempotency treatment (HTTP methods, idempotency keys, POST), this page owns the messaging-specific schema and the outbox-pairing story.
+
 ## [2026-08-31] ingest | AI Foundations / F1 Query-style system design scenarios
 
 - User pasted a 5-scenario prompt set for "AI Foundations" system design interview tracks: distributed data platforms intersecting with AI (F1 Query-style federated query engines, vector-relational hybrids).

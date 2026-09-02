@@ -16,7 +16,7 @@ Each service owns its own database, which no other service is allowed to access 
 │  Order Service  │    │  User Service   │    │  Search Service  │
 │  ┌───────────┐  │    │  ┌───────────┐  │    │  ┌────────────┐  │
 │  │ Orders DB │  │    │  │  Users DB │  │    │  │ Search Idx │  │
-│  │(PostgreSQL│  │    │  │(PostgreSQL│  │    │  │(Elasticsearch  │
+│  │(PostgreSQL│  │    │  │(PostgreSQL│  │    │  │(Elasticsearch │
 │  └───────────┘  │    │  └───────────┘  │    │  └────────────┘  │
 └─────────────────┘    └─────────────────┘    └──────────────────┘
   ↑ owns and controls     ↑ owns and controls    ↑ owns and controls

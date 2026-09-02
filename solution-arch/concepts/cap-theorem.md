@@ -1,7 +1,7 @@
 # CAP Theorem
 
 **Topic:** [[solution-arch/topics/data-architecture]], [[solution-arch/topics/scalability-and-reliability]]
-**Related:** [[solution-arch/concepts/acid-vs-base]], [[solution-arch/concepts/distributed-consensus]]
+**Related:** [[solution-arch/concepts/acid-vs-base]], [[solution-arch/concepts/distributed-consensus]], [[solution-arch/concepts/google-spanner]]
 
 ## What it is
 In a distributed system, you can guarantee at most **two** of three properties simultaneously:
@@ -70,7 +70,7 @@ Use CAP as a framing tool when choosing a database or explaining a design trade-
 - "Explain CAP and give examples of CP vs AP systems."
 - "You're building a bank transfer system — CP or AP? Why?"
 - "Your social media feed shows slightly old data sometimes — is that a CAP violation?"
-- "If CAP says pick 2, why does Google Spanner claim to be CA?" (It achieves very high consistency + availability using atomic clocks and globally synchronised replicas — partition risk is extremely low, not zero.)
+- "If CAP says pick 2, why does Google Spanner claim to be CA?" (It achieves very high consistency + availability using atomic clocks and globally synchronised replicas — partition risk is extremely low, not zero. Full mechanism: [[solution-arch/concepts/google-spanner]])
 - "What is PACELC and how does it improve on CAP?"
 
 ## Examples
